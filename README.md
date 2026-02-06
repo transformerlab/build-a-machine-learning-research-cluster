@@ -26,8 +26,3 @@
 
 * **Chapter 7: The "Cloud Arbitrageur"** | [Read Chapter](chapters/07-cloud-arbitrage.md)
 * **Chapter 8: The "Fortress" (Air-Gapped Systems)** | Coming Soon
-
-### Part IV: Operational Excellence
-
-* **Chapter 9: The User Experience (UX) Layer** | Coming Soon
-* **Chapter 10: Observability & Resilience** | Coming Soon
