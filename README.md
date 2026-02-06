@@ -20,14 +20,14 @@
     * Step by Step Install Instructions | [Coming Soon]
 * **Chapter 4: The "Apple Silicon" Shop** | [Read Chapter](chapters/04-apple-silicon.md)
 * **Chapter 5: The "University Cluster" (10–100 Nodes)** | [Read Chapter](chapters/05-university-cluster.md)
-* **Chapter 6: The "Supercomputer" (1000+ Nodes)** | [Read Chapter](chapters/06-supercomputer.md)
+* **Chapter 6: The "Supercomputer" (1000+ Nodes)** | Coming Soon
 
 ### Part III: Specialized Environments
 
 * **Chapter 7: The "Cloud Arbitrageur"** | [Read Chapter](chapters/07-cloud-arbitrage.md)
-* **Chapter 8: The "Fortress" (Air-Gapped Systems)** | [Read Chapter](chapters/08-air-gapped.md)
+* **Chapter 8: The "Fortress" (Air-Gapped Systems)** | Coming Soon
 
 ### Part IV: Operational Excellence
 
-* **Chapter 9: The User Experience (UX) Layer** | [Read Chapter](chapters/09-ux-layer.md)
-* **Chapter 10: Observability & Resilience** | [Read Chapter](chapters/10-observability.md)
+* **Chapter 9: The User Experience (UX) Layer** | Coming Soon
+* **Chapter 10: Observability & Resilience** | Coming Soon
