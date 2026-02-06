@@ -2,7 +2,7 @@
 
 ## Research vs. Production ML Clusters
 
-Before purchasing a single cable or downloading a Linux ISO, you must distinguish the purpose of your platform. Building a cluster for a **research team** is fundamentally different from building one for production deployment.
+Building a cluster for a **research team** is fundamentally different from building one for production deployment.
 
 **Production clusters** prioritize **uptime and latency**. Their goal is to serve models 24/7 to end-users, meaning redundancy and high availability are paramount,.
 
@@ -11,7 +11,7 @@ Before purchasing a single cable or downloading a Linux ISO, you must distinguis
 *   **The Workflow:** Workloads are often "bursty." A researcher might spend days coding (low compute) and then launch a massive distributed training job that consumes 100% of the cluster for 48 hours.
 *   **The Architecture:** Unlike production inference, which requires high availability but low node-to-node communication, research workloads like Large Scale Distributed Training require massive node-to-node bandwidth (gradients passing between GPUs),.
 
-## The Compute Escalation Cycle
+## Growing a Research Cluster
 
 Most labs evolve through a predictable cycle of hardware needs driven by the demand for faster training and larger datasets.
 
@@ -25,7 +25,7 @@ Most labs evolve through a predictable cycle of hardware needs driven by the dem
     *   Eventually, a single node is insufficient. You scale to multiple servers connected by a network.
     *   *The Solution:* This necessitates a job scheduler (like Slurm or Kubernetes) to manage the queue, ensuring fair access and preventing collisions.
 
-## The Hardware Layer (The "Iron")
+## The Hardware Layer
 
 This is the physical foundation of your platform. For research, the network is often as critical as the GPUs themselves.
 
@@ -34,7 +34,7 @@ You will likely need a mix of node types:
 *   **Training Nodes:** Dense, powerful servers (e.g., 8x high-end GPUs like H100s) designed for heavy lifting.
 *   **Interactive Nodes:** Cheaper nodes with fewer GPUs intended for debugging, Jupyter Notebooks, and prototyping.
 
-### The Interconnect (Fabric)
+### The Interconnect
 If you plan to train large models across multiple nodes, standard Ethernet is insufficient. You need a high-speed fabric like **InfiniBand** or **RoCE** (RDMA over Converged Ethernet).
 *   **East-West Traffic:** In distributed training, nodes pass gradients to each other continuously. Without a high-speed interconnect, nodes spend more time "chattering" than computing.
 *   **Topology:** As you scale beyond a single switch (e.g., >36 ports), you must design a non-blocking network, typically a "Spine and Leaf" (Fat Tree) topology, to ensure consistent bandwidth.
@@ -59,55 +59,16 @@ The software stack transforms a collection of metal boxes into a usable research
 
 ```mermaid
 graph TB
-    subgraph "Layer 3: Interface Layer"
-        A[Transformer Lab GUI]
-        B[JupyterHub/VS Code Server]
-        C[SSH + Bash Commands]
-    end
+    A[Interface Layer<br/>SSH, JupyterHub, Transformer Lab]
+    B[Orchestration Layer<br/>Slurm, Kubernetes, SkyPilot]
+    C[Hardware Layer<br/>GPUs, Network, Storage]
     
-    subgraph "Layer 2: Orchestration Layer"
-        D[Slurm]
-        E[Kubernetes + Volcano/Kueue]
-        F[SkyPilot]
-        G[Fair-Share Scheduling]
-        H[Gang Scheduling]
-    end
-    
-    subgraph "Layer 1: Hardware Layer"
-        I[GPU Compute Nodes]
-        J[High-Speed Network Fabric]
-        K[Parallel File Systems]
-    end
-    
-    A --> D
-    A --> E
-    B --> D
-    B --> E
-    C --> D
-    D --> G
-    D --> H
-    E --> G
-    E --> H
-    F --> D
-    F --> E
-    G --> I
-    H --> I
-    D --> I
-    E --> I
-    I --> J
-    I --> K
+    A --> B
+    B --> C
     
     style A fill:#e1f5ff
-    style B fill:#e1f5ff
-    style C fill:#e1f5ff
-    style D fill:#fff4e1
-    style E fill:#fff4e1
-    style F fill:#fff4e1
-    style G fill:#fff4e1
-    style H fill:#fff4e1
-    style I fill:#ffe1f5
-    style J fill:#ffe1f5
-    style K fill:#ffe1f5
+    style B fill:#fff4e1
+    style C fill:#ffe1f5
 ```
 
 ### Layer 1: Hardware Layer
