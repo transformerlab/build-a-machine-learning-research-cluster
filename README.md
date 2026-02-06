@@ -12,8 +12,12 @@
 
 ### Part II: Deployment Scales
 
-* **Chapter 2: The "Under-the-Desk" Server (1 Node)** | [Read Chapter](chapters/02-under-the-desk.md)
-* **Chapter 3: The "Closet Cluster" (2–5 Nodes)** | [Read Chapter](chapters/03-closet-cluster.md)
+* **Chapter 2: The "Under-the-Desk" Server (1 Node)**
+    * Overview and Recommendations | [Read Chapter](chapters/02-under-the-desk.md)
+    * Step by Step Install Instructions | [Coming Soon]
+* **Chapter 3: The "Closet Cluster" (2–5 Nodes)**
+    * Overview and Recommendations | [Read Chapter](chapters/03-closet-cluster.md)
+    * Step by Step Install Instructions | [Coming Soon]
 * **Chapter 4: The "Apple Silicon" Shop** | [Read Chapter](chapters/04-apple-silicon.md)
 * **Chapter 5: The "University Cluster" (10–100 Nodes)** | [Read Chapter](chapters/05-university-cluster.md)
 * **Chapter 6: The "Supercomputer" (1000+ Nodes)** | [Read Chapter](chapters/06-supercomputer.md)

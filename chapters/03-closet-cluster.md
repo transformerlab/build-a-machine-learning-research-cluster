@@ -34,7 +34,38 @@ graph TD
 
 ---
 
-## 1. The Crucial "Middle Layer": Networking & Storage
+## 1. Networking: The Tailscale Shortcut
+
+Before diving into orchestrators and storage, you need to solve the fundamental problem: **How do your machines talk to each other, and how do researchers access them securely?**
+
+At this scale, a great optoin is Tailscale
+
+### Tailscale
+
+**Tailscale** is a zero-configuration mesh VPN built on WireGuard. It creates a secure overlay network that makes all your machines appear on the same private network, regardless of their physical location.
+
+**Why Tailscale is Perfect for Research Clusters:**
+
+* **Zero Network Configuration:** No static IPs, no port forwarding, no firewall rules. Install the client, authenticate, and your machines instantly see each other.
+* **Remote Access:** Researchers can SSH into cluster nodes from home as if they were on the lab network—without exposing SSH to the public internet.
+* **ACL (Access Control Lists):** Define which users can access which machines. For example, `group:grad-students` can only SSH to interactive nodes, while `group:faculty` has full access.
+* **MagicDNS:** Each machine gets a friendly hostname (e.g., `gpu-node-1.tail-scale.ts.net`). No more remembering IP addresses.
+* **Subnet Routing:** If your cluster is behind a NAT or firewall, designate one node as a "subnet router" to give external researchers access to the entire private network range.
+
+**Quick Setup:**
+
+```bash
+# On each node (Head + Workers)
+curl -fsSL https://tailscale.com/install.sh | sh
+sudo tailscale up
+```
+
+**Pro Tip for Research Labs:**
+Enable **Tailscale SSH** to centralize SSH key management. Instead of distributing public keys to every machine, Tailscale handles authentication via your identity provider (Google, GitHub, Okta, etc.). When a researcher leaves the lab, revoke their Tailscale access—their SSH access disappears instantly across all machines.
+
+---
+
+## 2. The Crucial "Middle Layer": Storage
 
 Before choosing an orchestrator, you must solve the two "closet killers":
 
@@ -46,7 +77,7 @@ Before choosing an orchestrator, you must solve the two "closet killers":
 
 ---
 
-## 2. Choosing Your Orchestrator
+## 3. Choosing Your Orchestrator
 
 ### Path A: The "Academic Gold Standard" (Slurm)
 
@@ -80,7 +111,7 @@ If you plan to scale beyond 5 nodes or need advanced scheduling, start with Kube
 
 ---
 
-## 3. The User Interface: Transformer Lab
+## 4. The User Interface: Transformer Lab
 
 Regardless of the backend (Slurm, SkyPilot+SSH, or SkyPilot+K8s), your researchers shouldn't have to write complex `sbatch` scripts or YAML files daily.
 
