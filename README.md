@@ -9,12 +9,11 @@
 ### Part I: Philosophy & Components
 
 * **Chapter 1: Philosophy & Components**
-    * [The Research vs. Production Paradox](chapters/01-foundation.md#the-research-vs-production-paradox)
+    * [Research vs. Production ML Clusters](chapters/01-foundation.md#research-vs-production)
     * [The Compute Escalation Cycle](chapters/01-foundation.md#the-compute-escalation-cycle)
-    * [The Hardware Layer ("The Iron")](chapters/01-foundation.md#the-hardware-layer-the-iron)
+    * [The Hardware Layer](chapters/01-foundation.md#the-hardware-layer-the-iron)
     * [The Storage Layer](chapters/01-foundation.md#the-storage-layer)
     * [The Software Stack](chapters/01-foundation.md#the-software-stack)
-
 
 
 ### Part II: Deployment Scales
