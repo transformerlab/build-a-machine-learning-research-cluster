@@ -1,6 +1,6 @@
 # Chapter 7: The "Cloud Arbitrageur"
 
-**The Scenario:** You are a startup or agile research lab. You don't own hardware, and you don't want to be locked into a single provider like AWS or GCP.
+**The Scenario:** You are a startup or agile research lab. You don't own hardware, and you don't want to be locked into a single provider like AWS or GCP.  
 **The Goal:** You want to treat the entire internet as one giant computer. If AWS runs out of H100s, you want to launch on Lambda Labs instantly. If Azure Spot instances are 50% cheaper today, you want your job to land there automatically.
 
 **The Challenge:**
