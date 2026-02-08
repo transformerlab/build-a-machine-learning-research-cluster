@@ -67,7 +67,3 @@ Apple Silicon machines are **Inference Monsters**. Their high memory bandwidth m
 
 > [!TIP]
 > **Network is the Bottleneck:** For both Exo and dstack remote jobs, your WiFi will be the bottleneck. For the best performance, plug all your Macs into a **10GbE Switch**.
-
----
-
-**Would you like me to move on to Chapter 5: The "University Cluster" (10–100 Nodes) and tackle the networking complexities of a larger rack?**
