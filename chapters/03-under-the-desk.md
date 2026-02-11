@@ -22,7 +22,7 @@ If your team prefers not to use container or container-like isolation, then usin
 
 ---
 
-### 2. The Solution: SkyPilot "Local Mode"
+### 2. The Solution: SkyPilot + k3s
 
 While you *could* manually assign GPUs using `CUDA_VISIBLE_DEVICES=0,1`, this requires human coordination (e.g., a "GPU-Use" Slack channel). Instead, we use **SkyPilot** to turn the workstation into a private, automated cloud.
 
@@ -30,20 +30,11 @@ SkyPilot acts as the "Traffic Controller." It handles the queue: if the GPUs are
 
 #### Why this works:
 
-* **Virtualization:** It uses **Kind (Kubernetes in Docker)** under the hood. This provides the isolation of a cluster without the pain of managing a real Kubernetes installation.
+* **Virtualization:** It uses **k3s**. This provides the isolation of a cluster without the pain of managing a more complex Kubernetes installation.
 * **Zero-Config for Researchers:** Researchers define their requirements in a simple YAML file (e.g., `accelerators: A100:1`). They don't need to know which GPU index is free.
 * **Cloud Parity:** The exact same command used to run a job locally (`sky launch`) can be used to run the job on AWS or GCP later.
 
-**Implementation Quick-Start:**
 
-```bash
-# Install SkyPilot with local support
-pip install "skypilot[kubernetes]"
-
-# Provision the local 'cloud'
-sky local up
-
-```
 
 ---
 
