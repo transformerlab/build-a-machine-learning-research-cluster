@@ -25,8 +25,8 @@ In this guide we are not attempting to list **every** possibility but, rather, t
       * [Setting up a Machine Learning Workstation: Ubuntu with AMD ROCm Support](./chapters/02-02-02-ubuntu-rocm-amd.md)
       * [Which Mac to Buy for Machine Learning](./chapters/02-02-03-macos.md)
 * **Chapter 3: The "Under-the-Desk" Server (1 Node, Multiuser)**
-    * [Overview and Recommendations](chapters/03-under-the-desk.md)
-    * Step by Step Install Instructions (coming soon)
+    * 3.1 [Overview and Recommendations](chapters/03-under-the-desk.md)
+    * 3.2 [Step by Step Install Instructions] (coming soon)
 * **Chapter 4: The "Closet Cluster" (2–5 Nodes)**
     * [Overview and Recommendations](chapters/03-closet-cluster.md)
     * Step by Step Install Instructions (coming soon)
