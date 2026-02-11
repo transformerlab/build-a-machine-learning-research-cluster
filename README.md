@@ -12,23 +12,27 @@ In this guide we are not attempting to list **every** possibility but, rather, t
 
 ## Table of Contents
 
-### Part I: Philosophy & Components
-* **Chapter 1: Philosophy & Components** [Read Chapter](chapters/01-foundation.md)
+### Background
+* [**Chapter 1: Philosophy & Components**](chapters/01-foundation.md)
 
+### Configurations
+![Configurations](./chapters/images/configurations.png)
 
-### Part II: Deployment Scales
+* **Chapter 2: The Single User AI Workstation (1 Node, 1 User)**
+    * 2.1 [Overview and Recommendations](chapters/02-single-user-single-workstation.md)
+    * 2.2 Step by Step Install Instructions:
+      * 2.2.1 [Setting up a Machine Learning Workstation: Ubuntu 22.04 Server with CUDA Support](./chapters/02-02-01-ubuntu-cuda.md)
+      * [Setting up a Machine Learning Workstation: Ubuntu with AMD Support](./chapters)
+      * [Which Mac to Buy for Machine Learning](./chapters/)
+* **Chapter 3: The "Under-the-Desk" Server (1 Node, Multiuser)**
+    * [Overview and Recommendations](chapters/03-under-the-desk.md)
+    * Step by Step Install Instructions (coming soon)
+* **Chapter 4: The "Closet Cluster" (2–5 Nodes)**
+    * [Overview and Recommendations](chapters/03-closet-cluster.md)
+    * Step by Step Install Instructions (coming soon)
+* [**Chapter 5: The "Mac Silicon Cluster"**](chapters/05-apple-silicon.md)
+* [**Chapter 6: The "University Cluster" (10–100 Nodes)**](chapters/06-supercomputer.md)
+* **Chapter 7: The "Supercomputer" (1000+ Nodes)** | Coming Soon
+* **Chapter 8: Cloud Compute Cluster** | [Read Chapter](chapters/07-cloud-cluster.md)
+* **Chapter 9: The Air-Gapped Systems** | Coming Soon
 
-* **Chapter 2: The "Under-the-Desk" Server (1 Node)**
-    * Overview and Recommendations | [Read Chapter](chapters/02-under-the-desk.md)
-    * Step by Step Install Instructions | [Coming Soon]
-* **Chapter 3: The "Closet Cluster" (2–5 Nodes)**
-    * Overview and Recommendations | [Read Chapter](chapters/03-closet-cluster.md)
-    * Step by Step Install Instructions | [Coming Soon]
-* **Chapter 4: The "Mac Silicon Cluster"** | [Read Chapter](chapters/04-apple-silicon.md)
-* **Chapter 5: The "University Cluster" (10–100 Nodes)** | [Read Chapter](chapters/05-university-cluster.md)
-* **Chapter 6: The "Supercomputer" (1000+ Nodes)** | Coming Soon
-
-### Part III: Specialized Environments
-
-* **Chapter 7: Cloud Compute Cluster** | [Read Chapter](chapters/07-cloud-cluster.md)
-* **Chapter 8: The Air-Gapped Systems** | Coming Soon
