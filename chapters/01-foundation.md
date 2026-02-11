@@ -31,7 +31,7 @@ Most labs evolve through a predictable cycle of hardware needs driven by the dem
 
 ## Components To Consider
 
-![Three Main Components](./images/hardware-storage-software.png)
+<img src="./images/hardware-storage-software.png" width="300">
 
 ### Hardware
 This is the physical foundation of your platform. For research, the network is often as critical as the GPUs themselves.
@@ -80,7 +80,7 @@ graph TB
 
 ## Three Layers
 
-![Three Layers](./images/threelayers.png)
+<img src="./images/threelayers.png" width="300">
 
 ### Layer 1: Hardware Layer
 This is the physical foundation consisting of:
