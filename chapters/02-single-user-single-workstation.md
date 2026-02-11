@@ -8,7 +8,7 @@ For a single-user setup, avoid over-engineering your software stack. Because you
 
 This is the gold standard for performance and software compatibility.
 
-* **OS Recommendation:** * **Ubuntu 22.04 LTS:** The industry standard. Most research repositories are developed and tested on Ubuntu, ensuring the fewest "dependency hell" issues.
+* **OS Recommendation:** **Ubuntu 22.04 LTS:** The industry standard. Most research repositories are developed and tested on Ubuntu, ensuring the fewest "dependency hell" issues. This LTS version in particular (currently) has the best support for different libraries and drivers.
 * **Pop!_OS:** A refined alternative that handles NVIDIA drivers and CUDA toolkit installation automatically, saving significant setup time.
 
 
