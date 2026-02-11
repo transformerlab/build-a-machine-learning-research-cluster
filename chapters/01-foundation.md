@@ -11,9 +11,13 @@ Building a cluster for a **research team** is fundamentally different from build
 *   **The Workflow:** Workloads are often "bursty." A researcher might spend days coding (low compute) and then launch a massive distributed training job that consumes 100% of the cluster for 48 hours.
 *   **The Architecture:** Unlike production inference, which requires high availability but low node-to-node communication, research workloads like Large Scale Distributed Training require massive node-to-node bandwidth (gradients passing between GPUs),.
 
+
 ## Growing a Research Cluster
 
 Most labs evolve through a predictable cycle of hardware needs driven by the demand for faster training and larger datasets.
+
+![Different MLRP GPU Configurations](./images/configurations.png)
+
 
 1.  **The Workstation (Single Node):**
     *   Most researchers start here. A single machine, perhaps a laptop or a dedicated tower with 1-4 GPUs.
@@ -25,35 +29,38 @@ Most labs evolve through a predictable cycle of hardware needs driven by the dem
     *   Eventually, a single node is insufficient. You scale to multiple servers connected by a network.
     *   *The Solution:* This necessitates a job scheduler (like Slurm or Kubernetes) to manage the queue, ensuring fair access and preventing collisions.
 
-## The Hardware Layer
+## Components To Consider
 
+![Three Main Components](./images/hardware-storage-software.png)
+
+### Hardware
 This is the physical foundation of your platform. For research, the network is often as critical as the GPUs themselves.
 
-### Compute Nodes
+#### Compute Nodes
 You will likely need a mix of node types:
 *   **Training Nodes:** Dense, powerful servers (e.g., 8x high-end GPUs like H100s) designed for heavy lifting.
 *   **Interactive Nodes:** Cheaper nodes with fewer GPUs intended for debugging, Jupyter Notebooks, and prototyping.
 
-### The Interconnect
+#### The Interconnect
 If you plan to train large models across multiple nodes, standard Ethernet is insufficient. You need a high-speed fabric like **InfiniBand** or **RoCE** (RDMA over Converged Ethernet).
 *   **East-West Traffic:** In distributed training, nodes pass gradients to each other continuously. Without a high-speed interconnect, nodes spend more time "chattering" than computing.
 *   **Topology:** As you scale beyond a single switch (e.g., >36 ports), you must design a non-blocking network, typically a "Spine and Leaf" (Fat Tree) topology, to ensure consistent bandwidth.
 
-## The Storage Layer
+### Unified Storage
 
-Machine learning workloads create a unique stress test for storage known as the **"thundering herd" problem**: hundreds of GPUs attempting to read the same dataset (e.g., ImageNet) at the exact same millisecond.
+All the compute in your cluster needs access to a common set of data and a place to store the outputs (artifacts) from jobs. Worker nodes are often ephemeral and can be in distributed clouds, but they all need to be able to see and write to the same data.
 
-### Hot Storage (High-Performance)
-This is where active datasets live. It must support massive throughput to keep GPUs fed.
+#### Hot Storage (High-Performance)
+This is where active datasets often live. It must support massive throughput to keep GPUs fed.
 *   **Technology:** Parallel file systems like **Lustre**, **WekaIO**, **GPFS**, or **BeeGFS** are standard. Cloud-native options include **JuiceFS** (a distributed POSIX file system built on object storage) and **Longhorn** (a Kubernetes-native distributed block storage system).
 *   **Optimization:** Technologies like **GPU Direct Storage** allow GPUs to read directly from local NVMe drives, bypassing the CPU and system RAM to reduce latency.
 
-### Warm/Cold Storage (Object Store)
+#### Warm/Cold Storage (Object Store)
 Cheaper storage for checkpoints, logs, and datasets not currently in use.
 *   **Technology:** S3-compatible object storage (like **MinIO** for on-prem or AWS S3 for cloud).
 *   **Artifacts:** A specific database is often needed to track model weights and training metadata, distinct from raw file storage.
 
-## The Software Stack
+### The Software Stack
 
 The software stack transforms a collection of metal boxes into a usable research platform. It consists of three distinct layers, each serving a critical function.
 
@@ -70,6 +77,10 @@ graph TB
     style B fill:#fff4e1
     style C fill:#ffe1f5
 ```
+
+## Three Layers
+
+![Three Layers](./images/threelayers.png)
 
 ### Layer 1: Hardware Layer
 This is the physical foundation consisting of:
