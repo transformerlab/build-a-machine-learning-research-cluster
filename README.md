@@ -22,8 +22,8 @@ In this guide we are not attempting to list **every** possibility but, rather, t
     * 2.1 [Overview and Recommendations](chapters/02-single-user-single-workstation.md)
     * 2.2 Step by Step Install Instructions:
       * 2.2.1 [Setting up a Machine Learning Workstation: Ubuntu 22.04 Server with CUDA Support](./chapters/02-02-01-ubuntu-cuda.md)
-      * [Setting up a Machine Learning Workstation: Ubuntu with AMD Support](./chapters)
-      * [Which Mac to Buy for Machine Learning](./chapters/)
+      * [Setting up a Machine Learning Workstation: Ubuntu with AMD ROCm Support](./chapters/02-02-02-ubuntu-rocm-amd.md)
+      * [Which Mac to Buy for Machine Learning](./chapters/02-02-03-macos.md)
 * **Chapter 3: The "Under-the-Desk" Server (1 Node, Multiuser)**
     * [Overview and Recommendations](chapters/03-under-the-desk.md)
     * Step by Step Install Instructions (coming soon)
