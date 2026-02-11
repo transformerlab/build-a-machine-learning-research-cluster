@@ -26,7 +26,7 @@ In this guide we are not attempting to list **every** possibility but, rather, t
       * [Which Mac to Buy for Machine Learning](./chapters/02-02-03-macos.md)
 * **Chapter 3: The "Under-the-Desk" Server (1 Node, Multiuser)**
     * 3.1 [Overview and Recommendations](chapters/03-under-the-desk.md)
-    * 3.2 [Step by Step Install Instructions] (coming soon)
+    * 3.2 [Step by Step Install Instructions](./chapters/03-01-install.md)
 * **Chapter 4: The "Closet Cluster" (2–5 Nodes)**
     * [Overview and Recommendations](chapters/03-closet-cluster.md)
     * Step by Step Install Instructions (coming soon)
