@@ -14,6 +14,8 @@ This is the gold standard for performance and software compatibility.
 
 * **The Advantage:** Native **CUDA support**. Because most deep learning libraries are optimized for NVIDIA hardware, this provides the most friction-less path to running SOTA models.
 
+We have a guide to set up your single user workstation: [CUDA](./02-02-01-ubuntu-cuda.md) , [AMD](./02-02-02-ubuntu-rocm-amd.md)
+
 ### 2. Apple Silicon (MacBook Pro / Mac Studio)
 
 Apple’s M-series chips are powerful options for researchers who need portability or high VRAM capacity without the bulk of a desktop.
@@ -21,6 +23,8 @@ Apple’s M-series chips are powerful options for researchers who need portabili
 * **The Framework:** macOS does not support CUDA. You will instead use **MLX**, an array framework designed by Apple specifically for machine learning on Apple silicon.
 * **The Advantage:** **Unified Memory**. A Mac Studio with high RAM allows you to run or fine-tune large models (LLMs) that would normally require multiple enterprise-grade A100 GPUs.
 * **The Trade-off:** MLX is powerful but remains a niche ecosystem. Some specialized CUDA kernels found in research papers may require manual porting.
+
+[Here is a guide to purchasing and setting up a Mac for machine learning](./02-02-03-macos.md)
 
 ### 3. Cloud Services & Hosted Tools
 
