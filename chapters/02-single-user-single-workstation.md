@@ -2,14 +2,23 @@
 
 For a single-user setup, keep your software stack simple and straightforward. Because you are the only user, you don't need complex virtualization or container orchestration layers. If a library conflict or driver error breaks your environment, you can clean and reinstall the components—or the entire OS. This straightforward approach works well for individuals working alone. However, once you need to share hardware with multiple researchers, you'll need the more complex configurations discussed in later sections of this guide.
 
+
+<img src="./images/configurations/1-singleuser.png" width="180">
+
 ---
 
 ### 1. Dedicated Linux Workstation
 
 This is the gold standard for performance and software compatibility.
 
-* **OS Recommendation:** **Ubuntu 22.04 LTS:** The industry standard for ML research. Most research repositories are developed and tested on Ubuntu, minimizing compatibility issues. This specific LTS version offers stable support across libraries and drivers.
-* **Pop!_OS:** A refined alternative that handles NVIDIA drivers and CUDA toolkit installation automatically, saving significant setup time.
+* **OS Recommendation:** [**Ubuntu 22.04 LTS:**](https://releases.ubuntu.com/jammy/) The industry standard for ML research. Most research repositories are developed and tested on Ubuntu, minimizing compatibility issues. This specific LTS version offers stable support across libraries and drivers.
+
+<img src="./images/canonical-ubuntu-jammy-jellyfish.jpg" width="400">
+
+
+* [**Pop!_OS:**](https://system76.com/pop/) A refined alternative that handles NVIDIA drivers and CUDA toolkit installation automatically, saving significant setup time.
+
+<img src="./images/popos.jpg" width="400">
 
 
 * **The Advantage:** Native **CUDA support**. Since most deep learning libraries are optimized for NVIDIA hardware, this provides the smoothest path to running state-of-the-art models.
