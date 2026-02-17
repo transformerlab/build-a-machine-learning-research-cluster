@@ -30,7 +30,7 @@ Apple’s M-series chips are powerful options for researchers who need portabili
 
 While we often assume it is better to own hardware. Often when doing the  math on real utilization (and factoring in how quickly hardware becomes obsolete) -- it makes sense to rent GPUs in the cloud.
 
-* **Providers:** Services like **Runpod**, **Lambda Labs**, or **Google Colab**.
+* **Providers:** Services like [**Runpod**](https://www.runpod.io/), [**Lambda Labs**](https://lambda.ai/), or [**Google Colab**](https://colab.research.google.com/).
 * **The Economics:** Renting is often cheaper than buying. Including hardware depreciation, electricity, and the upfront cost of a $1,600+ GPU, renting an A100 or H100 only during training can be more cost-effective.
 * **The Advantage:** Instant access to top-tier hardware and pre-configured environments without heat management or power supply concerns.
 
