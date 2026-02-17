@@ -29,6 +29,8 @@ We have a guide to set up your single user workstation: [CUDA](./02-02-01-ubuntu
 
 Apple’s M-series chips are powerful options for researchers who need portability or high VRAM capacity without the bulk of a desktop.
 
+<img src="./images/mlx_logo.png" width="200">
+
 * **The Framework:** macOS doesn't support CUDA. Instead, you use **MLX**, an array framework designed by Apple for machine learning on Apple silicon.
 * **The Advantage:** **Unified Memory**. A Mac Studio with high RAM allows you to run or fine-tune large models (LLMs) that would normally require multiple enterprise-grade A100 GPUs.
 * **The Trade-off:** MLX is powerful but still a niche ecosystem compared to CUDA. Some specialized CUDA kernels from research papers may require manual porting or adaptation.
