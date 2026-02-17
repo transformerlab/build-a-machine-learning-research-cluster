@@ -1,5 +1,11 @@
 # Step 1 - Installing the Operating System
 
+For a small cluster, initialize all your nodes as follows.
+
+If you have a separate CPU-only control node that will not act as a worker, you don't have to install NVIDIA drivers on it.
+
+For kubernetes to work properly, do not forget to disable swap, as mentioned in Step 2
+
 # Ubuntu 22.04 + K3s GPU Cluster Setup Guide
 
 This guide will walk you through setting up a fresh Ubuntu 22.04 installation and configuring it to run GPU-accelerated workloads using K3s and NVIDIA. We highly recommend Ubuntu 22.04 as it has the best support for NVIDIA GPUs.
@@ -158,4 +164,4 @@ kubectl get nodes -o custom-columns="NAME:.metadata.name,GPU:.status.allocatable
 
 If you see a `1` (or the number of GPUs you have) under the GPU column, you are ready to deploy AI/ML workloads!
 
-[**Now you can continue to Step 2 to install Skypilot -->**](./03-03-02-skypilot.md)
+[**Now you can continue to Step 2 to install NFS -->**](./04-02-02-nfs.md)
