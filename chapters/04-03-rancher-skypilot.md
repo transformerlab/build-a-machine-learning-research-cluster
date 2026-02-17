@@ -1,0 +1,3 @@
+# Building a Small (3-5 Node) SkyPilot + Rancher Cluster - Install Instructions
+
+If your cluster is smallish, Rancher can be a bit of overhead to install compared to our guide using k3s. However, Rancher offers a nice UI and can be worth the effort. We have a [guide for Rancher + Skypilot at this doc](./07-02-skypilot-rancher-install.md). Follow it as is, but you will probably want to install the management UI on one node only if your cluster is small.
