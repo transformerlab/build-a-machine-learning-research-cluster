@@ -18,43 +18,13 @@ In this guide, we are not attempting to list every possibility but, rather, to o
 
 ### Configurations
 
-<img src="./chapters/images/configurations/1-singleuser.png" width="100">
-
-* **The Single User AI Workstation (1 Node, 1 User)**
-    * [Overview and Recommendations](chapters/02-single-user-single-workstation.md)
-    * Step-by-Step OS Installation:
-        * [Ubuntu 22.04 Server with CUDA Support](/chapters/02-02-01-ubuntu-cuda.md)
-        * [Ubuntu with AMD ROCm Support](/chapters/02-02-02-ubuntu-rocm-amd.md)
-        * [Which Mac to Buy for Machine Learning]( /chapters/02-02-03-macos.md)
-
-<img src="./chapters/images/configurations/2-multuser-single-workstation.png" width="100">
-
-* **The "Under-the-Desk" Server (1 Node, Multiuser)**
-    * [Overview and Recommendations](chapters/03-under-the-desk.md)
-    * [Step-by-Step Install Instructions](/chapters/03-01-install.md)
-
-
-<img src="./chapters/images/configurations/3-multiusers-multi-workstation.png" width="100">
-
-* **The "Closet Cluster" (2–5 Nodes)**
-    * [Overview and Recommendations](chapters/04-closet-cluster.md)
-    * Step-by-Step Install Instructions (Coming Soon)
-
-
-* **[The "Mac Silicon Cluster"](chapters/05-apple-silicon.md)**
-
-<img src="./chapters/images/configurations/5-largecluster.png" width="150">
-
-* **[The "University Cluster" (10–100 Nodes)](chapters/07-university-cluster.md)**
-* **The "Supercomputer" (1000+ Nodes)** | [Read More](chapters/06-supercomputer.md)
-
-<img src="./chapters/images/configurations/4-single-cloud.png" width="100">
-
-* **The "Cloud Arbitrageur"** | [Read More](chapters/07-cloud-cluster.md)
-
-<img src="./chapters/images/configurations/6-hybrid.png" width="150">
-
-
-* **Hybrid Cloud Cluster** | Coming Soon
-
-* **The Air-Gapped Systems** | [Read More](chapters/09-air-gapped.md)
+| Configuration | Documentation |
+|---------------|---------------|
+| <img src="./chapters/images/configurations/1-singleuser.png" width="100"> | **The Single User AI Workstation (1 Node, 1 User)**<br>• [Overview and Recommendations](chapters/02-single-user-single-workstation.md)<br>• Step-by-Step OS Installation:<br>&nbsp;&nbsp;- [Ubuntu 22.04 Server with CUDA Support](/chapters/02-02-01-ubuntu-cuda.md)<br>&nbsp;&nbsp;- [Ubuntu with AMD ROCm Support](/chapters/02-02-02-ubuntu-rocm-amd.md)<br>&nbsp;&nbsp;- [Which Mac to Buy for Machine Learning](/chapters/02-02-03-macos.md) |
+| <img src="./chapters/images/configurations/2-multuser-single-workstation.png" width="100"> | **The "Under-the-Desk" Server (1 Node, Multiuser)**<br>• [Overview and Recommendations](chapters/03-under-the-desk.md)<br>• [Step-by-Step Install Instructions](/chapters/03-01-install.md) |
+| <img src="./chapters/images/configurations/3-multiusers-multi-workstation.png" width="100"> | **The "Closet Cluster" (2–5 Nodes)**<br>• [Overview and Recommendations](chapters/04-closet-cluster.md)<br>• Step-by-Step Install Instructions (Coming Soon) |
+| | **[The "Mac Silicon Cluster"](chapters/05-apple-silicon.md)** |
+| <img src="./chapters/images/configurations/5-largecluster.png" width="150"> | **[The "University Cluster" (10–100 Nodes)](chapters/07-university-cluster.md)**<br>**The "Supercomputer" (1000+ Nodes)** • [Read More](chapters/06-supercomputer.md) |
+| <img src="./chapters/images/configurations/4-single-cloud.png" width="100"> | **Single Cloud Cluster** • [Read More](chapters/07-cloud-cluster.md) |
+| <img src="./chapters/images/configurations/6-hybrid.png" width="150"> | **Hybrid Cloud Cluster** • Coming Soon |
+| | **The Air-Gapped Systems** • [Read More](chapters/09-air-gapped.md) |
