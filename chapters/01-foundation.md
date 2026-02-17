@@ -9,7 +9,7 @@ Building a cluster for a **research team** is fundamentally different from build
 **Research clusters**, conversely, prioritize **utilization, flexibility, and fairness**. In a research environment:
 *   **The Goal:** Ensure expensive hardware isn't sitting idle and that researchers (e.g., PhD students or R&D scientists) get equitable access to compute time.
 *   **The Workflow:** Workloads are often "bursty." A researcher might spend days coding (low compute) and then launch a massive distributed training job that consumes 100% of the cluster for 48 hours.
-*   **The Architecture:** Unlike production inference, which requires high availability but low node-to-node communication, research workloads like Large Scale Distributed Training require massive node-to-node bandwidth (gradients passing between GPUs),.
+*   **The Architecture:** Unlike production inference, which requires high availability but low node-to-node communication, research workloads like Large Scale Distributed Training require massive node-to-node bandwidth (gradients passing between GPUs).
 
 
 ## Growing a Research Cluster
