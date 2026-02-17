@@ -100,6 +100,7 @@ If your team comes from a university background, Slurm is the "correct" answer.
 SkyPilot provides a unified interface for launching jobs without managing orchestrator complexity directly.
 
 * **The Setup:** Use SkyPilot's SSH backend. You provide SkyPilot with a list of IP addresses and SSH credentials for your nodes. No additional infrastructure required.
+* **Controller Node:** Designate the Head Node (or a dedicated control machine) to run the SkyPilot API. Set it up as a **systemd service** so it auto-starts after reboot (see the [Under-the-Desk guide](./03-03-02-skypilot.md#7-making-skypilot-persistent-with-systemd) for systemd service setup steps).
 * **The Experience:** A researcher runs `sky launch task.yaml` from their laptop. SkyPilot finds an available machine, rsyncs the code, and starts the job. It handles resource allocation automatically.
 * **Best For:** Teams that want simplicity and are comfortable with SSH-based access. Ideal if you want to avoid the overhead of running a full orchestrator but still need basic scheduling and resource management.
 * **The Limitation:** No advanced scheduling features like fair-share or gang scheduling. Resource conflicts are handled at a basic level.
@@ -111,6 +112,7 @@ If you plan to scale beyond 5 nodes or need advanced scheduling, start with Kube
 * **The Setup:** 
   * Don't install vanilla K8s—use **Rancher** (specifically **RKE2**). It's a production-grade distribution that simplifies installing the NVIDIA Device Plugin, GPU Operator, and other ML-specific components.
   * Install SkyPilot configured to use your Kubernetes cluster as the backend. This gives you the best of both worlds: K8s scheduling power with SkyPilot's simple interface.
+  * Set up the SkyPilot API as a **systemd service** on your control server so it auto-starts after reboot (see the [Under-the-Desk guide](./03-03-02-skypilot.md#7-making-skypilot-persistent-with-systemd) for systemd service setup steps).
 * **The Experience:** 
   * Researchers still use `sky launch task.yaml` but now benefit from Kubernetes' advanced scheduling (via Volcano or Kueue).
   * Rancher provides a beautiful Web UI to monitor GPU utilization, logs, and pod health.
