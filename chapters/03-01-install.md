@@ -6,6 +6,6 @@ Our recommendations may seem overkill (installing kubernetes on just a single ma
 
 [Step 1: Installing the Operating System and k3s](./03-02-01-operating-system.md)
 
-[Step 3: Installing Skypilot](./03-03-02-skypilot.md)
+[Step 2: Installing Skypilot](./03-03-02-skypilot.md)
 
-[Step 4: Installing Transformer Lab](./03-03-03-transformerlab.md)
+[Step 3: Installing Transformer Lab](./03-03-03-transformerlab.md)
