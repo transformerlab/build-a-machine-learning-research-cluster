@@ -63,6 +63,16 @@ sudo apt update && sudo apt install -y nvidia-container-toolkit
 sudo reboot
 ```
 
+### Verify GPU Visibility
+
+After the system reboots, verify that the NVIDIA drivers are working correctly and your GPUs are visible:
+
+```bash
+nvidia-smi
+```
+
+You should see output displaying your GPU(s), driver version, CUDA version, and current GPU utilization. If you see an error or no GPUs listed, there may be an issue with the driver installation.
+
 ---
 
 ## 4. K3s and Helm Installation
