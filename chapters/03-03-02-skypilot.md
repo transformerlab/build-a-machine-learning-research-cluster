@@ -114,6 +114,7 @@ sudo nano /etc/systemd/system/skypilot-api.service
 ```
 
 Paste this template, replacing **`YOUR_USERNAME`** with your actual Linux username (e.g. `transformerlab`) and adjusting paths if your home directory or venv path is different:
+Only add the `After` and `Wants` lines if you have k3s installed as a service and want to ensure it starts before SkyPilot.
 
 ```ini
 [Unit]
