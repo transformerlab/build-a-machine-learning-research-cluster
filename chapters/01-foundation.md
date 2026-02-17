@@ -103,3 +103,5 @@ This is how researchers interact with the cluster. The choice of interface drama
 *   **Bash Commands over SSH:** The traditional HPC approach. Users SSH into a login node and submit jobs directly using `sbatch` (Slurm) or `kubectl` (Kubernetes) commands. Requires deep technical knowledge but offers maximum flexibility and control.
 *   **Interactive Development Environments:** Services like **JupyterHub** or **VS Code Server** provide web-based IDEs where researchers can develop and debug code interactively before submitting batch jobs.
 *   **Unified GUI Platforms:** Tools like **Transformer Lab** provide a graphical interface that abstracts away the complexity of the underlying orchestrator. Users can launch jobs, manage experiments, access interactive sessions (Jupyter/VSCode), and track artifacts without mastering CLI commands or understanding Slurm/Kubernetes syntax.
+
+[**Return to the Home Page to Read about Specific Cluster Configuration Suggestions -->**](../README.md)
