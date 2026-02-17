@@ -334,22 +334,124 @@ uv pip install "skypilot[kubernetes]"
 
 ```
 
-## 3. Verify & Start
+## 3. Verify & Start the API
 
-Check if SkyPilot sees the GPUs on the worker nodes:
+Now we check if SkyPilot can "see" the GPUs inside your Kubernetes cluster and start the management dashboard.
 
 ```bash
 sky show-gpus --cloud kubernetes
-
 ```
 
 Start the API (accessible from your browser):
 
 ```bash
 sky api start --deploy
-
 ```
 
-## 4. Install Transformer Lab
+Note: adding `--deploy` to the api start command makes the API listen on 0.0.0.0 (all networks) so external users can access SkyPilot.
 
-Install Transformer Lab by [following the instructions here](). It will automatically detect the local SkyPilot configuration.
+Once the API is running, you can access the graphical interface to monitor your cluster:
+
+- **URL:** `http://<YOUR_IP_ADDRESS>:46580/dashboard`
+- **User Management:** Visit `http://<YOUR_IP_ADDRESS>:46580/users` to find your **User ID** and **User Name**, which you will need for setting up Transformer Lab
+
+## 4 Making SkyPilot Persistent with systemd
+
+To ensure SkyPilot starts automatically after a reboot and runs as a background service, we'll create a systemd unit file.
+
+### 1. Create the service file
+
+Create a new `systemd` unit:
+
+```bash
+sudo nano /etc/systemd/system/skypilot-api.service
+```
+
+Paste this template, replacing **`YOUR_USERNAME`** with your actual Linux username (e.g. `transformerlab`) and adjusting paths if your home directory or venv path is different:
+
+```ini
+[Unit]
+Description=SkyPilot API Service
+After=network.target k3s.service
+Wants=k3s.service
+
+[Service]
+Type=simple
+User=YOUR_USERNAME
+Group=YOUR_USERNAME
+WorkingDirectory=/home/YOUR_USERNAME
+Environment="PATH=/home/YOUR_USERNAME/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+Environment="KUBECONFIG=/home/YOUR_USERNAME/.kube/config"
+ExecStart=/home/YOUR_USERNAME/.venv/bin/sky api start --deploy --foreground
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
+```
+
+For a machine with a user called `transformerlab`, this likely becomes:
+
+```ini
+User=transformerlab
+Group=transformerlab
+WorkingDirectory=/home/transformerlab
+Environment="PATH=/home/transformerlab/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+Environment="KUBECONFIG=/home/transformerlab/.kube/config"
+ExecStart=/home/transformerlab/.venv/bin/sky api start --deploy --foreground
+```
+
+Save and exit (`Ctrl+O`, `Enter`, `Ctrl+X`).
+
+---
+
+### 2. Enable and start the service
+
+Reload `systemd` so it picks up the new unit, then enable and start it:
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable skypilot-api.service
+sudo systemctl start skypilot-api.service
+sudo systemctl status skypilot-api.service
+```
+
+---
+
+### 3. Managing the SkyPilot service
+
+```bash
+# Start / stop / restart / status
+sudo systemctl start skypilot-api
+sudo systemctl stop skypilot-api
+sudo systemctl restart skypilot-api
+sudo systemctl status skypilot-api
+```
+
+---
+
+### 4. Logs & troubleshooting
+
+```bash
+# Follow live logs
+sudo journalctl -u skypilot-api -f
+
+# Last 100 log lines
+sudo journalctl -u skypilot-api -n 100
+```
+
+If the service won't start, run the command manually first to confirm it works:
+
+```bash
+source /home/YOUR_USERNAME/.venv/bin/activate
+export KUBECONFIG=/home/YOUR_USERNAME/.kube/config
+sky api start --deploy --foreground
+```
+
+Once that works, the unit above should keep it running and auto-start it on reboot.
+
+## 5. Install Transformer Lab
+
+Install Transformer Lab by [following the instructions here](https://lab.cloud/for-teams/install). It will automatically detect the local SkyPilot configuration.
