@@ -1,4 +1,4 @@
-# Chapter 3: The "Closet Cluster" (2–5 Nodes)
+# The "Closet Cluster" (2–5 Nodes)
 
 **The Scenario:** You’ve outgrown your single workstation. Maybe you’ve acquired a few NVIDIA DGX Stations or built a handful of custom 4x GPU rigs. They are currently sitting in a ventilated closet or a small server room.
 

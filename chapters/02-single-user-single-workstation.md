@@ -1,4 +1,4 @@
-## Chapter 2: Single User – Single Workstation ML Research Platform
+## Single User – Single Workstation ML Research Platform
 
 For a single-user setup, keep your software stack simple and straightforward. Because you are the only user, you don't need complex virtualization or container orchestration layers. If a library conflict or driver error breaks your environment, you can clean and reinstall the components—or the entire OS. This straightforward approach works well for individuals working alone. However, once you need to share hardware with multiple researchers, you'll need the more complex configurations discussed in later sections of this guide.
 

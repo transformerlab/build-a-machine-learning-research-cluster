@@ -1,14 +1,16 @@
-# Chapter 2: The "Under-the-Desk" Server (Single Node)
+# The "Under-the-Desk" Server (Single Node, Multiple Users)
 
 **The Scenario:** Your team has a single, powerful workstation—perhaps a 4x A6000 or an 8x H100 "DevBox"—tucked under a desk or in a corner of the office.
 
 **The Challenge:** Multiple researchers need to run experiments. Without a system in place, "Researcher A" might start a training run that consumes all VRAM, causing "Researcher B's" debugging session to crash instantly with a `CUDA: Out of Memory` error. Worse, someone might upgrade a system-level driver that breaks everyone else's environments.
 
+<img src="./images/configurations/2-multuser-single-workstation.png" width="180">
+
 ---
 
 ### 1. Resist the "Bare Metal" Temptation
 
-The biggest mistake at this stage is allowing researchers to install libraries (`pip install ...`) directly on the host operating system. This leads to **Dependency Hell**, where one project requires specific version of CUDA, or someone needs Python 3.10 and another requires 3.12, eventually rendering the machine unusable.
+It's usually a bad idea to allow researchers to install libraries (`pip install ...`) directly on the host operating system. This leads to **Dependency Hell**, where one project requires specific version of CUDA, or someone needs Python 3.10 and another requires 3.12, eventually rendering the machine unusable.
 
 **The Golden Rule:** The host OS should only have three things installed:
 

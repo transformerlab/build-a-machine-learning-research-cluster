@@ -1,4 +1,4 @@
-# Chapter 1: Philosophy & Components
+# Philosophy & Components
 
 ## Research vs. Production ML Clusters
 

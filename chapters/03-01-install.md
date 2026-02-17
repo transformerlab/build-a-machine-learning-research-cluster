@@ -1,4 +1,4 @@
-# Chapter 3: The "Under-the-Desk" Server (Single Node) - Install Instructions
+# The "Under-the-Desk" Server (Single Node) - Install Instructions
 
 Here are full step by step instructions to setting up a single workstation to work in a shared environment.
 
