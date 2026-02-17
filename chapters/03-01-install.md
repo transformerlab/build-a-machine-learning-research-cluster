@@ -237,6 +237,7 @@ source .venv/bin/activate
 uv pip install "skypilot[kubernetes]"
 ```
 
+> **Note:** You can also choose to install this on your base env instead of using uv if the machine is only being used for the cluster.
 ---
 
 ## 5. Verify & Start the API

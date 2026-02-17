@@ -334,6 +334,8 @@ uv pip install "skypilot[kubernetes]"
 
 ```
 
+> **Note:** You can also choose to install this on your base env instead of using uv if the machine is only being used for the cluster.
+
 ## 3. Verify & Start the API
 
 Now we check if SkyPilot can "see" the GPUs inside your Kubernetes cluster and start the management dashboard.
