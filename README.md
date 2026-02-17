@@ -13,8 +13,8 @@ In this guide, we are not attempting to list every possibility but, rather, to o
 
 ### Background
 
-* **[Chapter 1: Philosophy & Components](chapters/01-foundation.md)**
-    * Defining the stack: Drivers, Orchestration, and Storage.
+* **Chapter 1: Philosophy & Components**
+    * [The Foundation -- Defining the stack: Drivers, Orchestration, and Storage](chapters/01-foundation.md)
 
 ### Configurations
 

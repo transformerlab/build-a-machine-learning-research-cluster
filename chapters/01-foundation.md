@@ -66,9 +66,9 @@ The software stack transforms a collection of metal boxes into a usable research
 
 ```mermaid
 graph TB
-    A[Interface Layer<br/>SSH, JupyterHub, Transformer Lab]
-    B[Orchestration Layer<br/>Slurm, Kubernetes, SkyPilot]
-    C[Hardware Layer<br/>GPUs, Network, Storage]
+    A["Interface Layer<br/>(SSH, JupyterHub, Transformer Lab)"]
+    B["Orchestration Layer<br/>(Slurm, Kubernetes, SkyPilot)"]
+    C["Hardware Layer<br/>(GPUs, Network, Storage)"]
     
     A --> B
     B --> C
@@ -79,8 +79,6 @@ graph TB
 ```
 
 ## Three Layers
-
-<img src="./images/threelayers.png" width="300">
 
 ### Layer 1: Hardware Layer
 This is the physical foundation consisting of:
