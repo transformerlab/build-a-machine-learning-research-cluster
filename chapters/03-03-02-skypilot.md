@@ -1,4 +1,10 @@
+# Step 2. Installing Skypilot
+
 This next phase connects your Kubernetes cluster to **SkyPilot**, an orchestrator that makes running AI workloads much easier. I’ve organized this to ensure your environment variables and permissions are handled correctly from the start.
+
+
+> [!TODO]
+> Update these docs to install skypilot globally in the base env and update the docs to install as services so they live after reboot
 
 ---
 
@@ -105,6 +111,6 @@ Once the API is running, you can access the graphical interface to monitor your 
 
 If you close your terminal and return later, remember to re-activate your environment:
 
-```bash
+```
 source .venv/bin/activate
 ```
