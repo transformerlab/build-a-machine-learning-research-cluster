@@ -1,10 +1,12 @@
 # Setting Up Ubuntu 22.04 for ML: Step-by-Step
 
-As mentioned, do not fear "breaking" this setup. If you encounter a dependency loop or a driver conflict that persists after a reboot, simply reformat the drive and start fresh. On a single-user workstation, a clean slate is often faster than deep-system troubleshooting.
+Are you setting up an ML workstation for a machine with NVIDIA GPUs? This guide goes step by step with recommendations for how to install the optimal operating system and components to get started.
 
 ---
 
 ### Phase 1: Ubuntu 22.04 Installation
+
+<img src="./images/canonical-ubuntu-jammy-jellyfish.jpg" width=300>
 
 1. **Download & Flash:** Download the [Ubuntu 22.04 LTS ISO](https://ubuntu.com/download/desktop) and flash it to a USB drive using a tool like **BalenaEtcher** or **Rufus**.
 2. **BIOS Settings:** Ensure **Secure Boot** is **Disabled** in your BIOS. Secure Boot can block proprietary NVIDIA drivers from loading.
