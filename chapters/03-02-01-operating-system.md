@@ -65,7 +65,7 @@ sudo reboot
 
 ### Verify GPU Visibility
 
-After the system reboots, verify that the NVIDIA drivers are working correctly and your GPUs are visible:
+After the system reboots, verify that the NVIDIA drivers are working correctly and your GPUs are visible by running:
 
 ```bash
 nvidia-smi
