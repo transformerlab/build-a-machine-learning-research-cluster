@@ -26,6 +26,9 @@ If you really can't or don't want to use containerization, then using **uv envir
 
 ### 2. Using SkyPilot + k3s
 
+<img src="./images/skypilotlogo.png" width="100">
+<img src="./images/k3slogo.png" width="150">
+
 While you *could* manually assign GPUs using `CUDA_VISIBLE_DEVICES=0,1`, this requires human coordination (e.g., a "GPU-Use" Slack channel). Instead, in this guide, we'll use **SkyPilot** to turn the workstation into a private, automated cloud.
 
 SkyPilot acts as the "Traffic Controller." It handles the queue: if the GPUs are full, the next job waits until a resource is freed.
@@ -35,8 +38,6 @@ SkyPilot acts as the "Traffic Controller." It handles the queue: if the GPUs are
 * **Virtualization:** It uses **k3s**. This provides the isolation of a cluster without the pain of managing a more complex Kubernetes installation.
 * **Zero-Config for Researchers:** Researchers define their requirements in a simple YAML file (e.g., `accelerators: A100:1`). They don't need to know which GPU index is free.
 * **Cloud Parity:** The exact same command used to run a job locally (`sky launch`) can be used to run the job on AWS or GCP later.
-
-
 
 ### 3. The Interface: Transformer Lab
 
@@ -64,4 +65,4 @@ On a single node, you have the luxury of fast, local NVMe storage. However, you 
 > Use SkyPilot's `sky status` command weekly to find "zombie" interactive sessions—containers that were started for debugging but never shut down, silently hogging 24GB of VRAM.
 
 
-[Ready to set up a machine as a shared computer for multiple researchers? Read this Guide -->](./03-01-install.md)
+[Ready to set up a machine as a shared computer for multiple researchers? Read this Step-by-Step Guide -->](./03-01-install.md)
