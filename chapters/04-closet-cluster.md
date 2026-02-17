@@ -81,7 +81,7 @@ Before choosing an orchestrator, you must solve the two "closet killers":
 * **The MVP Solution:** Set up a simple **NFS (Network File System)** on the Head Node. It’s easy to configure but will bottleneck if 5 nodes try to read a 100GB dataset simultaneously.
 
 
-* **The Network Switch:** At 2–5 nodes, you can still use a single Top-of-Rack (ToR) switch. Ensure it is at least **10GbE** for data loading. If you intend to do multi-node training (Distributed Data Parallel), you will need **Mellanox/InfiniBand** or **100GbE RoCE**, or your scaling efficiency will tank.
+* **The Network Switch:** At 2–5 nodes, you can still use a single Top-of-Rack (ToR) switch. Ensure it is at least **10GbE** for data loading. If you intend to do multi-node training (Distributed Data Parallel), you will need **Mellanox/InfiniBand** or **100GbE RoCE**, or your scaling efficiency will suffer.
 
 ---
 
