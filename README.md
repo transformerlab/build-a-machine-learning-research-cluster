@@ -37,7 +37,7 @@ In this guide, we are not attempting to list every possibility but, rather, to o
 <img src="./chapters/images/configurations/3-multiusers-multi-workstation.png" width="100">
 
 * **Chapter 4: The "Closet Cluster" (2–5 Nodes)**
-    * [Overview and Recommendations](chapters/03-closet-cluster.md)
+    * [Overview and Recommendations](chapters/04-closet-cluster.md)
     * Step-by-Step Install Instructions (Coming Soon)
 
 
@@ -45,16 +45,16 @@ In this guide, we are not attempting to list every possibility but, rather, to o
 
 <img src="./chapters/images/configurations/5-largecluster.png" width="150">
 
-* **[Chapter 6: The "University Cluster" (10–100 Nodes)](chapters/06-supercomputer.md)**
-* **Chapter 7: The "Supercomputer" (1000+ Nodes)** | Coming Soon
+* **[Chapter 6: The "University Cluster" (10–100 Nodes)](chapters/07-university-cluster.md)**
+* **Chapter 7: The "Supercomputer" (1000+ Nodes)** | [Read Chapter](chapters/06-supercomputer.md)
 
 <img src="./chapters/images/configurations/4-single-cloud.png" width="100">
 
-* **Chapter 8: Cloud Compute Cluster** | [Read Chapter](chapters/07-cloud-cluster.md)
+* **Chapter 8: The "Cloud Arbitrageur"** | [Read Chapter](chapters/07-cloud-cluster.md)
 
 <img src="./chapters/images/configurations/6-hybrid.png" width="150">
 
 
 * **Chapter 9: Hybrid Cloud Cluster** | Coming Soon
 
-* **Chapter 9: The Air-Gapped Systems** | Coming Soon
+* **Chapter 10: The Air-Gapped Systems** | [Read Chapter](chapters/09-air-gapped.md)
