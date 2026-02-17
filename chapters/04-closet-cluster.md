@@ -139,3 +139,8 @@ Regardless of the backend (Slurm, SkyPilot+SSH, or SkyPilot+K8s), your researche
 > * [ ] **Power:** Have you checked the circuit breaker? A single 8x GPU node can pull 3kW. Five nodes will melt a standard residential/office circuit.
 > * [ ] **Cooling:** A closet with no airflow will reach 100°F (38°C) in minutes. You need at least 1 ton of dedicated cooling for every two high-end GPU nodes.
 > * [ ] **UID Consistency:** Ensure User is ID `1001` on every single machine, or your shared storage permissions will become a nightmare.
+
+## Ready to set up a small cluster? We have guides here:
+* Install Skypilot + k3s (./04-02-skypilot-k3s-install.md)
+* Install Skypilot + Rancher (coming soon)
+* Install SKypilot + Slurm (coming soon)
