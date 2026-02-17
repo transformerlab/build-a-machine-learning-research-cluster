@@ -72,7 +72,7 @@ SkyPilot acts as the "Traffic Controller." It handles the queue: if the GPUs are
 
 Transformer Lab works with SkyPilot to make the entire research experience easier.
 
-* **The Hub:** Install Transformer Lab as a persistent service on the machine.
+* **The Hub:** Install both **SkyPilot** and **Transformer Lab** as persistent services on the machine (so they auto-start after reboot).
 * **Job Submission:** Researchers log into the web interface, select their model and dataset, and click "Run."
 * **Queue Management:** Transformer Lab passes the job to SkyPilot. If Researcher A is using all GPUs, Researcher B sees their job marked as "Queued" in the dashboard, preventing a collision.
 
