@@ -18,15 +18,11 @@ To use the GPU on Apple Silicon, the process must run **natively on macOS**. You
 
 ---
 
-## 2. Option 1: The Modern Choice (dstack)
+## 2. Option 1: Slurm
 
-For most ML teams, **dstack** is the best way to pool Apple Silicon devices. It provides a "Cloud UX" without forcing you into a containerized overlay.
+**slurm** may be the best way to pool Apple Silicon devices because it can run workloads directly on machines without containerization -- giving your jobs direct access to the Apple Silicon GPU.
 
-* **The Mechanism:** You run a `dstack` server on one machine and configure your fleet of Macs as an **"SSH Fleet."**
-* **The Magic:** dstack SSHs into the Mac and runs your workload directly on the host shell. This grants your code direct, native access to **MPS (Metal Performance Shaders)**.
-* **Research Workflow:** Since dstack handles the environment and job lifecycle, it is the primary tool for fine-tuning and experimental runs.
-
----
+Options like dstack and skypilot expect some level of containerization which *will not work* for MacOS GPU access.
 
 ## 3. Option 2: The "Inference Hive" (Exo)
 
@@ -36,35 +32,7 @@ While not a primary research tool for training, your lab may want to run **Exo**
 * **Integration:** You can leverage Exo through **dstack** as a backend. This allows researchers to use dstack's familiar job-scheduling interface while taking advantage of Exo’s ability to "stitch" together the memory of multiple Macs into one giant virtual GPU.
 * **Best For:** When the lab needs a shared, high-capacity inference endpoint for testing or local model evaluation.
 
----
 
-## 4. Option 3: The HPC Choice (Slurm)
+## Ideas?
 
-If you are running a formal university lab where "Fair Share" scheduling and multi-user priority queues are vital, **Slurm** remains the heavyweight option.
-
-* **The Mechanism:** You compile Slurm from source using Homebrew dependencies.
-* **The Magic:** You create a partition in `slurm.conf` called `apple_gpu`. Because the job runs as a native macOS process, it has full access to the unified memory pool.
-
----
-
-## 5. Summary: Choosing Your Tool
-
-| Feature | **dstack** | **Exo** | **Slurm** |
-| --- | --- | --- | --- |
-| **Primary Use** | Orchestration & Job Queuing | Distributed "Giant" Inference | Multi-user Resource Fairness |
-| **GPU Access** | Native (via SSH) | Native (via Metal/p2p) | Native (via Process) |
-| **Setup Time** | 15 Minutes | 2 Minutes | 2-4 Hours |
-| **Research Utility** | High (Fine-tuning/Training) | Moderate (Inference only) | High (Resource Management) |
-
----
-
-## The Verdict & Recommendation
-
-Apple Silicon machines are **Inference Monsters**. Their high memory bandwidth makes them faster than many mid-range NVIDIA cards for large model weights.
-
-* **Start with dstack.** It turns your office Macs into a private "Apple Cloud" with almost zero configuration and full support for training workflows.
-* **Layer in Exo via dstack** when you need to run massive models that exceed the RAM of a single machine.
-* **Switch to Slurm** only if you need to enforce strict "wait your turn" policies for a large department.
-
-> [!TIP]
-> **Network is the Bottleneck:** For both Exo and dstack remote jobs, your WiFi will be the bottleneck. For the best performance, plug all your Macs into a **10GbE Switch**.
+Does your lab run ML workloads on a fleet of Mac devices? If so we'd love your feedback in this doc.
