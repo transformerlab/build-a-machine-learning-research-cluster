@@ -236,7 +236,7 @@ sudo reboot
 
 1. Log into Rancher -> **Cluster Management** -> **Create**.
 2. Select **Custom**.
-3. Name: `paper-cluster-compute-prod`.
+3. Name: `ml-cluster-compute-prod`.
 4. **Network Provider:** Select **Calico** (Preferred for HPC/GPU).
 5. Click **Create**.
 
@@ -255,7 +255,7 @@ Run the generated command on each respective node.
 
 Once the cluster is active, we deploy the software that lets Kubernetes see the GPUs.
 
-1. In Rancher, select your `paper-cluster-compute-prod` cluster.
+1. In Rancher, select your `ml-cluster-compute-prod` cluster.
 2. Go to **Apps & Marketplace** -> **Charts**.
 3. Search for **NVIDIA GPU Operator** and Install.
 4. **Important Options:**
@@ -298,7 +298,7 @@ uv pip install "skypilot[kubernetes]"
 
 SkyPilot on the management node needs to "talk" to the new Compute Cluster.
 
-1. **Download Config:** In Rancher UI -> Cluster Management -> Find `paper-cluster-compute-prod` -> Click **⋮** -> **Download KubeConfig**.
+1. **Download Config:** In Rancher UI -> Cluster Management -> Find `ml-cluster-compute-prod` -> Click **⋮** -> **Download KubeConfig**.
 2. **Save Config:**
 ```bash
 mkdir -p ~/.kube
@@ -325,13 +325,141 @@ kubectl get nodes
 # Install dependencies
 sudo apt-get update && sudo apt-get install -y socat netcat
 
+# Install yq (needed for Kueue config patching)
+sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq
+sudo chmod +x /usr/bin/yq
+
 # Check Cloud (Kubernetes)
 sky check
 # Verify Output: "Kubernetes: Enabled"
 
 ```
 
-## 4. Start SkyPilot API (Systemd Service)
+## 4. Install Kueue (Job Queuing)
+
+[Kueue](https://kueue.sigs.k8s.io/) is an open-source Kubernetes job scheduler that provides quota management, priority-based scheduling, and fair sharing of resources. Installing Kueue allows SkyPilot jobs to be queued and scheduled according to resource quotas and priorities.
+
+> **Note:** These commands target the **Compute Cluster**. Make sure your `KUBECONFIG` points to the compute cluster (`~/.kube/config`) before proceeding.
+
+### A. Install Kueue
+
+```bash
+VERSION=v0.12.3
+kubectl apply --server-side -f https://github.com/kubernetes-sigs/kueue/releases/download/$VERSION/manifests.yaml
+
+```
+
+### B. Patch Kueue to Support Plain Pods
+
+SkyPilot creates workloads as plain pods, which Kueue does not schedule by default. [Based on the documentation here](https://docs.skypilot.co/en/latest/reference/kubernetes/examples/kueue-example.html), patch the Kueue config to add pod support:
+
+```bash
+# Extract, patch, and save the config
+kubectl -n kueue-system get cm kueue-manager-config \
+  -o jsonpath='{.data.controller_manager_config\.yaml}' \
+  | yq '.integrations.frameworks += ["pod"]' > /tmp/kueueconfig.yaml
+
+# Apply the patched ConfigMap
+kubectl -n kueue-system create cm kueue-manager-config \
+  --from-file=controller_manager_config.yaml=/tmp/kueueconfig.yaml \
+  --dry-run=client -o yaml | kubectl -n kueue-system apply -f -
+
+# Restart the controller to pick up the new config
+kubectl -n kueue-system rollout restart deployment kueue-controller-manager
+kubectl -n kueue-system rollout status deployment kueue-controller-manager
+
+```
+
+Verify the patch:
+
+```bash
+kubectl -n kueue-system get cm kueue-manager-config \
+  -o jsonpath='{.data.controller_manager_config\.yaml}' \
+  | yq '.integrations.frameworks'
+# Should include "pod" in the output
+
+```
+
+### C. (Optional) Enable Gang Scheduling
+
+Gang scheduling ensures all pods for a multi-node workload (e.g., distributed training) are admitted together or not at all:
+
+```bash
+kubectl -n kueue-system get cm kueue-manager-config \
+  -o jsonpath='{.data.controller_manager_config\.yaml}' \
+  | yq '.waitForPodsReady.enable = true' \
+  | yq '.waitForPodsReady.blockAdmission = true' > /tmp/kueueconfig.yaml
+
+kubectl -n kueue-system create cm kueue-manager-config \
+  --from-file=controller_manager_config.yaml=/tmp/kueueconfig.yaml \
+  --dry-run=client -o yaml | kubectl -n kueue-system apply -f -
+
+kubectl -n kueue-system rollout restart deployment kueue-controller-manager
+kubectl -n kueue-system rollout status deployment kueue-controller-manager
+
+```
+
+### D. Create Resource Flavor, Cluster Queue, and Local Queue
+
+Save the following as `kueue-setup.yaml`:
+
+```yaml
+apiVersion: kueue.x-k8s.io/v1beta1
+kind: ResourceFlavor
+metadata:
+  name: "default-flavor"
+---
+apiVersion: kueue.x-k8s.io/v1beta1
+kind: ClusterQueue
+metadata:
+  name: "skypilot-cluster-queue"
+spec:
+  namespaceSelector: {} # match all namespaces
+  resourceGroups:
+    - coveredResources: ["cpu", "memory", "nvidia.com/gpu"]
+      flavors:
+        - name: "default-flavor"
+          resources:
+            - name: "cpu"
+              nominalQuota: 16
+            - name: "memory"
+              nominalQuota: 32Gi
+            - name: "nvidia.com/gpu"
+              nominalQuota: 1000000 # "Infinite" quota
+  preemption:
+    withinClusterQueue: LowerPriority
+---
+apiVersion: kueue.x-k8s.io/v1beta1
+kind: LocalQueue
+metadata:
+  namespace: "default"
+  name: "skypilot-local-queue"
+spec:
+  clusterQueue: "skypilot-cluster-queue"
+
+```
+
+> **Important:** Adjust the `cpu` and `memory` `nominalQuota` values to match your cluster's actual capacity.
+
+Apply it:
+
+```bash
+kubectl apply -f kueue-setup.yaml
+
+```
+
+### E. Configure SkyPilot to Use Kueue
+
+Add the following to `~/.sky/config.yaml` on the management node:
+
+```yaml
+kubernetes:
+  kueue:
+    local_queue_name: skypilot-local-queue
+
+```
+
+## 5. Start SkyPilot API (Systemd Service)
 
 We will run the API as a background service so it persists after reboots.
 
@@ -368,7 +496,7 @@ sudo systemctl enable --now skypilot-api
 
 ```
 
-## 5. Final Verification
+## 6. Final Verification
 
 ```bash
 sky show-gpus --cloud kubernetes
@@ -428,8 +556,8 @@ sudo nginx -t
 sudo systemctl restart nginx
 
 # Generate SSL Cert (Follow prompts)
-sudo certbot --nginx -d lab.vectorinstitute.ai
+sudo certbot --nginx -d lab.yourlab.ai
 
 ```
 
-You can now access your cluster at `https://lab.vectorinstitute.ai` (or your configured domain).
+You can now access your cluster at `https://lab.yourlab.ai` (or your configured domain).
