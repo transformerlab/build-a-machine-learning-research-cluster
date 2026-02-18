@@ -111,3 +111,10 @@ The combination of **SkyPilot** and **Kueue** automates recovery:
 
 * **Monitoring:** Deploy **Prometheus** and **Grafana** with the `NVIDIA DCGM Exporter` for real-time visibility into GPU health and utilization.
 * **Networking:** For multi-node training (32+ GPUs), use the **SR-IOV CNI plugin** to expose **RoCE** or **InfiniBand** directly to pods, minimizing latency during gradient synchronization.
+
+## Next Steps
+
+Ready to Set up a Cluster of this Scale Step-by-step? Read our Guides here: 
+
+* [SkyPilot + Kueue + Kubernetes Step-by-Step Install](./07-02-skypilot-rancher-install.md)
+* University Slurm Cluster (coming soon)
