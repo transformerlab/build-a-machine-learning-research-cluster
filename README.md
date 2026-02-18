@@ -24,8 +24,7 @@ In this guide, we are not attempting to list every possibility but, rather, to o
 | <img src="./chapters/images/configurations/3-multiusers-multi-workstation.png" width="100"> | **The "Closet Cluster" (2–5 Nodes)**<br>• [Overview and Recommendations](chapters/04-closet-cluster.md)<br>• [Option 1: Step-by-Step Install Instructions – Building a Small SkyPilot + k3s Cluster (recommended)](./chapters/04-02-skypilot-k3s-install.md)<br>• [Option 2: Build a k3s Cluster using Skypilot + Rancher](./chapters/04-03-rancher-skypilot.md) |
 | <img src="./chapters/images/configurations/7-applecluster.png" width="100"> | **[The "Mac Silicon Cluster"](chapters/05-apple-silicon.md)** |
 | <img src="./chapters/images/configurations/5-largecluster.png" width="150"> | **The "University Cluster" (10–100 Nodes)**<br>• [Overview and Recommendations](chapters/07-university-cluster.md)<br>• [Option 1: Step-by-Step Install Instructions – Building a Large Kubernetes Cluster with Rancher + Skypilot](./chapters/07-02-skypilot-rancher-install.md)<br>• [Option 2: Step-by-Step Install Instructions – Building a Large Slurm + Transformer Lab cluster](./chapters/07-02-slurm-cluster-install.md) |
-| <img src="./chapters/images/configurations/4-single-cloud.png" width="100"> | coming soon |
-| <img src="./chapters/images/configurations/6-hybrid.png" width="150"> | coming soon |
+| <img src="./chapters/images/configurations/4-single-cloud.png" width="100">  <img src="./chapters/images/configurations/6-hybrid.png" width="150"> | **Single Cloud or Hybrid Cloud Cluster**<br>• [Overview and Recommendations](chapters/08-cloud-cluster.md) |
 
 ## How They Built It: Real-World ML Clusters
 
