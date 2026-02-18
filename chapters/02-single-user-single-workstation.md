@@ -8,7 +8,7 @@ For a single-user setup, keep your software stack simple and straightforward. Be
 
 ### Tech Stack Comparison by Platform
 
-| Layer | Dedicated Linux PC | Apple Silicon (Mac) | Cloud Services |
+| Layer | 1. Dedicated Linux PC | 2. Apple Silicon (Mac) | 3. Cloud Services |
 | --- | --- | --- | --- |
 | **Hardware** | RTX 4090 / 5090 (CUDA) | M4 Ultra / M5 (MLX) | H100 / B200 (NVIDIA) |
 | **OS** | Ubuntu 22.04 / Pop!_OS | macOS | Managed Linux (Containers) |
@@ -17,7 +17,7 @@ For a single-user setup, keep your software stack simple and straightforward. Be
 | **Orchestration** | N/A| N/A | N/A |
 
 
-### 1. Dedicated Linux Workstation
+### Option 1. Dedicated Linux Workstation
 
 This is the gold standard for performance and software compatibility.
 
@@ -33,9 +33,15 @@ This is the gold standard for performance and software compatibility.
 
 * **The Advantage:** Native **CUDA support**. Since most deep learning libraries are optimized for NVIDIA hardware, this provides the smoothest path to running state-of-the-art models.
 
-We have a guide to set up your single user workstation: [CUDA](./02-02-01-ubuntu-cuda.md) , [AMD](./02-02-02-ubuntu-rocm-amd.md)
+<div style="background-color: #f6f8fa; border-left: 4px solid #0969da; padding: 12px 16px; margin: 16px 0; border-radius: 6px;">
 
-### 2. Apple Silicon (MacBook Pro / Mac Studio)
+**Next Steps:** Set up your single-user workstation:
+- [Step-by-Step CUDA Setup](./02-02-01-ubuntu-cuda.md)
+- [Step-by-Step AMD (ROCm) Setup](./02-02-02-ubuntu-rocm-amd.md)
+
+</div>
+
+### Option 2. Apple Silicon (MacBook Pro / Mac Studio)
 
 Apple’s M-series chips are powerful options for researchers who need portability or high VRAM capacity without the bulk of a desktop.
 
@@ -47,7 +53,7 @@ Apple’s M-series chips are powerful options for researchers who need portabili
 
 [Here is a guide to purchasing and setting up a Mac for machine learning](./02-02-03-macos.md)
 
-### 3. Cloud Services & Hosted Tools
+### Option 3. Cloud Services & Hosted Tools
 
 While we often assume it is better to own hardware. Often when doing the  math on real utilization (and factoring in how quickly hardware becomes obsolete) -- it makes sense to rent GPUs in the cloud.
 

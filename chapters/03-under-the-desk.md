@@ -35,7 +35,17 @@
 └───────────────────────────────────────────────────────────────────────┘
 ```
 
----
+### Recommended Stack
+
+
+| Layer | Dedicated Linux PC |
+| --- | --- |
+| **Hardware** | 8xA100 / 2x5090 / etc. |
+| **OS** | Ubuntu 22.04 |
+| **Networking** | Local / Tailscale |
+| **Storage** | NVMe |
+| **Orchestration** | SkyPilot + k3s |
+| **Interface** | Transformer Lab |
 
 ### 1. Avoid Running on "Bare Metal"
 
