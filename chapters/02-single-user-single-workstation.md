@@ -5,7 +5,17 @@ For a single-user setup, keep your software stack simple and straightforward. Be
 
 <img src="./images/configurations/1-singleuser.png" width="180">
 
----
+
+### Tech Stack Comparison by Platform
+
+| Layer | Dedicated Linux PC | Apple Silicon (Mac) | Cloud Services |
+| --- | --- | --- | --- |
+| **Hardware** | RTX 4090 / 5090 (CUDA) | M4 Ultra / M5 (MLX) | H100 / B200 (NVIDIA) |
+| **OS** | Ubuntu 22.04 / Pop!_OS | macOS | Managed Linux (Containers) |
+| **Networking** | Local / Tailscale | Local / Thunderbolt 4 | Cloud specific |
+| **Storage** | Dual Gen5 NVMe (Local) | SSD | S3 / Managed Buckets |
+| **Orchestration** | N/A| N/A | N/A |
+
 
 ### 1. Dedicated Linux Workstation
 
@@ -44,13 +54,3 @@ While we often assume it is better to own hardware. Often when doing the  math o
 * **Providers:** Services like [**Runpod**](https://www.runpod.io/), [**Lambda Labs**](https://lambda.ai/), or [**Google Colab**](https://colab.research.google.com/).
 * **The Economics:** Renting is often cheaper than buying. Including hardware depreciation, electricity, and the upfront cost of a $1,600+ GPU, renting an A100 or H100 only during training can be more cost-effective.
 * **The Advantage:** Instant access to top-tier hardware and pre-configured environments without heat management or power supply concerns.
-
----
-
-### Comparison Summary
-
-| Platform | Primary Driver | Best For | Main Drawback |
-| --- | --- | --- | --- |
-| **Linux PC** | CUDA | General Research / SOTA | High upfront cost |
-| **Mac Studio** | MLX | Portability / Large Inference | No CUDA support |
-| **Cloud** | API / Web | Scaling / Cost-efficiency | Ongoing rental fees |
