@@ -26,4 +26,15 @@ In this guide, we are not attempting to list every possibility but, rather, to o
 | <img src="./chapters/images/configurations/5-largecluster.png" width="150"> | **The "University Cluster" (10–100 Nodes)**<br>• [Overview and Recommendations](chapters/07-university-cluster.md)<br>• [Option 1: Step-by-Step Install Instructions – Building a Large Kubernetes Cluster with Rancher + Skypilot](./chapters/07-02-skypilot-rancher-install.md)<br>• Option 2: Step-by-Step Install Instructions – Building a Large Slurm + Transformer Lab cluster |
 | <img src="./chapters/images/configurations/4-single-cloud.png" width="100"> | coming soon |
 | <img src="./chapters/images/configurations/6-hybrid.png" width="150"> | coming soon |
-| | **The Air-Gapped Systems**<br>coming soon |
+
+## How They Built It: Real-World ML Clusters
+
+* [SkyPilot at Shopify](https://shopify.engineering/skypilot)
+* [AI / ML at Uber](https://www.uber.com/en-CA/blog/from-predictive-to-generative-ai/)
+* [3 Principles for Building an ML Platform That Will Sustain Hypergrowth](https://careersatdoordash.com/blog/3-principles-for-building-an-ml-platform/)
+* [How did we build an AI/ML Platform at DoorDash from the ground up - Sudhir Tonse](https://www.youtube.com/watch?v=XshoHr8xOR0)
+* [Griffin, ML Platform at Instacart](https://www.youtube.com/watch?v=iMizuHVPX0M)
+* [Product Lessons from ML Home: Spotify’s One-Stop Shop for Machine Learning](https://engineering.atspotify.com/2022/01/product-lessons-from-ml-home-spotifys-one-stop-shop-for-machine-learning)
+* [Monzo's Machine Learning Stack](https://monzo.com/blog/2022/04/26/monzos-machine-learning-stack)
+
+Have you built an ML cluster at your university or company? Are the docs public? Please share here.
