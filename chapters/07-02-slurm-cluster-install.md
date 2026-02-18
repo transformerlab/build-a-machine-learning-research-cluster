@@ -398,3 +398,96 @@ If nodes are not joining:
 1. **Time Sync:** Ensure clocks are synced (`date`). Slurm fails if clocks drift > 5 mins.
 2. **Munge:** Run `munge -n | ssh node-01 unmunge` to verify authentication works across the network.
 3. **Hardware Specs:** Run `slurmd -C` on the worker. If the CPU/Memory output does not match `slurm.conf` exactly, the node will drain.
+
+---
+
+# Phase 6: Install Transformer Lab
+
+Now that your Slurm cluster is running, you can install **Transformer Lab** to provide a web-based interface for managing ML experiments across your cluster. Transformer Lab acts as a frontend that submits jobs to Slurm on behalf of your team.
+
+Transformer Lab runs on a **CPU node** (this can be the Control Node or a separate machine) and connects to Slurm via SSH.
+
+## 1. Install Transformer Lab
+
+SSH into the CPU node and run:
+
+```bash
+curl -LsSf https://lab.cloud/install.sh | bash
+```
+
+Then install the multi-user/Slurm support packages:
+
+```bash
+cd ~/.transformerlab/src
+./install.sh multiuser_setup
+```
+
+## 2. Configure Team Edition
+
+Create a `.env` file at `~/.transformerlab/.env`:
+
+```bash
+TL_API_URL = "http://localhost:8338/"
+MULTIUSER = "true"
+FRONTEND_URL = "http://localhost:8338"
+TFL_REMOTE_STORAGE_ENABLED = true
+```
+
+> Replace `localhost` with your server's IP address or hostname if users will access it from other machines.
+
+### (Optional) Configure S3 Storage
+
+If using AWS S3 as remote storage for models and datasets, configure credentials:
+
+```bash
+aws configure --profile transformerlab-s3
+```
+
+Or manually create `~/.aws/credentials`:
+
+```ini
+[transformerlab-s3]
+aws_access_key_id = YOUR_ACCESS_KEY_ID
+aws_secret_access_key = YOUR_SECRET_ACCESS_KEY
+```
+
+## 3. Start Transformer Lab
+
+```bash
+cd ~/.transformerlab/src
+./run.sh
+```
+
+The web interface will be available at `http://<your-server>:8338`.
+
+**Default login:**
+- Email: `admin@example.com`
+- Password: `admin123`
+
+> **Important:** Change the default password immediately after your first login.
+
+## 4. Connect to Slurm
+
+1. Log in and go to **Team Settings** (click your username in the sidebar).
+2. Open **Compute Providers** and click **Add Compute Provider**.
+3. Choose type `slurm` and provide the following configuration:
+
+```json
+{
+  "ssh_host": "<SLURM_LOGIN_NODE_IP>",
+  "ssh_user": "slurm",
+  "ssh_key_path": "~/.ssh/id_rsa",
+  "ssh_port": 22
+}
+```
+
+> Adjust `ssh_host`, `ssh_user`, `ssh_key_path`, and `ssh_port` to match your cluster. Ensure the Transformer Lab node can SSH to the Slurm login node with the provided user and key.
+
+## 5. Set Up User Credentials
+
+Each team member needs to configure their individual Slurm credentials:
+
+1. Navigate to **User Settings → Provider Settings**.
+2. Set your Slurm user ID for the Slurm provider.
+3. If needed, generate an SSH key pair and add the public key to `~/.ssh/authorized_keys` on the Slurm login node.
+4. Paste the contents of your private key into the private key field in Provider Settings.
