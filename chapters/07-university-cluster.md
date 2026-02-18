@@ -14,12 +14,12 @@ At this scale, there are two primary architectural paths.
 
 Commonly used in academic environments, Slurm is a stable workload manager that excels with MPI-based jobs. However, it lacks native container orchestration, making it difficult to host persistent services—such as vector databases or inference endpoints—alongside batch jobs.
 
-### Path B: The "Cloud-Native" Route (Kubernetes + SkyPilot)
+### Path B: The "Cloud-Native" Route (Kubernetes + Kueue + SkyPilot)
 
-**This is the recommended architecture.** Layering SkyPilot on top of Kubernetes provides a balanced environment for both operations and research:
+**This is the recommended architecture.** Kubernetes is excellent at managing containers, but it lacks a native "Queue." By adding **Kueue**, you gain HPC-style job queuing and fair-share quotas on top of a modern API.
 
-1. **Operations:** Utilizes industry-standard management (Kubernetes) for health checks, networking, and storage.
-2. **Researchers:** Use a simplified interface (SkyPilot) that abstracts the complexities of pods, services, and ingresses.
+1. **Operations:** Utilizes industry-standard management (Kubernetes + Kueue) for health checks, multi-tenant resource quotas, and priority queuing.
+2. **Researchers:** Use a simplified interface (SkyPilot) that abstracts the complexities of pods and submits jobs to the managed queues.
 
 ---
 
@@ -48,7 +48,7 @@ At this scale, your goal is to provide a **Single System Image**, where research
       │  └─────────────────────────────────┘  │  │ ┌──────────────┐ │  │ ┌──────────────┐ │
       │  ┌─────────────────────────────────┐  │  │ │▒▒▒▒▒▒▒▒▒▒▒▒▒▒│ │  │ │▒▒▒▒▒▒▒▒▒▒▒▒▒▒│ │
       │  │▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒│  │  │ │▒▒▒GPU Oper.▒▒│ │  │ │▒▒▒GPU Oper.▒▒│ │
-      │  │▒▒▒SkyPilot + Rancher (RKE2)▒▒▒▒▒│  │  │ │▒▒▒▒▒▒▒▒▒▒▒▒▒▒│ │  │ │▒▒▒▒▒▒▒▒▒▒▒▒▒▒│ │
+      │  │▒▒SkyPilot + Kueue + Rancher ▒▒▒▒│  │  │ │▒▒▒▒▒▒▒▒▒▒▒▒▒▒│ │  │ │▒▒▒▒▒▒▒▒▒▒▒▒▒▒│ │
       │  │▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒│  │  │ └──────────────┘ │  │ └──────────────┘ │
       └─────────────────────────┬─────────────┘  └────────┬─────────┘  └───────┬──────────┘
                                 └──────┐           ┌──────┘          ┌─────────┘           
@@ -61,57 +61,42 @@ At this scale, your goal is to provide a **Single System Image**, where research
 
 ```
 
-### Step 1: The Base Layer (Rancher & RKE2)
+### Step 1: Cluster Orchestration (Rancher & RKE2)
 
-Avoid manual Kubernetes installations with `kubeadm` at this scale due to the high administrative overhead.
+Use **Rancher** and **RKE2** to manage the distribution. This ensures the **NVIDIA GPU Operator** is deployed correctly to handle driver lifecycle and container runtimes across all nodes.
 
-* **Recommendation:** Use **Rancher** for cluster management and **RKE2** as the distribution.
-* **Why:** RKE2 is secure by default and simplifies the deployment of the **NVIDIA GPU Operator**, which automates driver and container runtime synchronization across the cluster.
+### Step 2: The Job Coordinator (Kueue)
 
-### Step 2: The Entry Point (SkyPilot + Transformer Lab)
+Kubernetes’ default scheduler is "first-come, first-served," which leads to resource starvation in a multi-user cluster.
 
-Standard Kubernetes manifests (`.yaml` files) are often impractical for research workflows.
+* **Kueue:** This is a cloud-native job queuing controller. It allows you to define **ResourceFlavors** (e.g., H100 nodes vs. A100 nodes) and **ClusterQueues** with specific quotas.
+* **Why it matters:** If Researcher A submits a job that requires 64 GPUs but only 32 are available, Kueue holds the job in a pending state until the resources are free, rather than letting Kubernetes pods fail repeatedly.
 
-* **SkyPilot:** Operates within the Kubernetes cluster as a scheduler, translating job requests into Kubernetes Pods.
-* **Transformer Lab:** Provides a graphical interface for launching tasks, Jupyter notebooks and other jobs without requiring command-line interaction.
+### Step 3: The Entry Point (SkyPilot + Transformer Lab)
 
-### Step 3: The Storage Strategy
+* **SkyPilot:** Acts as the high-level scheduler. It submits jobs to the **Kueue** interface.
+* **Transformer Lab:** Provides the user-facing GUI for notebook and job management.
 
-At 100 nodes, storage performance is a critical factor. A "Two-Tier" approach is recommended:
+### Step 4: The Storage Strategy
 
-1. **Hot Tier (NFS/JuiceFS):** A high-performance shared filesystem for active datasets, mounted to `/home`.
-2. **Cold Tier (Object Store):** S3 or MinIO for long-term model checkpoints and logs.
+Maintain a "Two-Tier" approach: **Hot Tier** (NFS/JuiceFS) for active training data and **Cold Tier** (S3/MinIO) for long-term checkpoint persistence.
 
 ---
 
 ## 3. Hardware Resilience
 
-In a 100-node environment, hardware failure is a statistical certainty. At this scale, the Mean Time Between Failures (MTBF) necessitates a plan for the following:
-
-* GPU Xid errors (silent data corruption or process hangs).
-* ECC Memory bit-flips.
-* Network interface card (NIC) disconnects.
-* Power supply unit (PSU) failures.
-
-### The Challenge of Node Failure
-
-In a manual setup, if a node fails during a multi-day training run, the job typically crashes. The researcher must then manually identify a healthy node, migrate the data, and restart the process from the last saved state.
+In a 100-node environment, hardware failure is a statistical certainty. At this scale, the Mean Time Between Failures (MTBF) necessitates a plan for GPU Xid errors, ECC bit-flips, and network disconnects.
 
 ### The Solution: Managed Recovery
 
-The **SkyPilot + Transformer Lab** stack automates recovery from these failures:
+The combination of **SkyPilot** and **Kueue** automates recovery:
 
-1. **Automatic Detection:** SkyPilot monitors job health. If a Kubernetes Pod terminates due to node failure, SkyPilot identifies the event immediately.
-2. **Auto-Restart:** SkyPilot automatically provisions a new Pod on an available healthy node and restarts the job.
-3. **Checkpointing Requirements:**
-* This system requires the user to implement periodic checkpointing.
-* The training script must be configured to load the most recent checkpoint from shared storage (NFS/S3) upon startup.
-* **Result:** The job resumes with minimal loss of progress.
-
-
+1. **Detection:** SkyPilot monitors job status. If a node fails and the pod terminates, SkyPilot (working with Kueue) re-enqueues the job.
+2. **Auto-Restart:** Once a healthy node is available, the job is automatically re-provisioned.
+3. **Requirement:** Training scripts must be configured to save and load checkpoints from the shared storage tier to ensure continuity.
 
 > [!TIP]
-> **Cloud Bursting and Spot Instances:** This auto-recovery logic also supports the use of "Spot" or "Preemptible" instances when bursting to the cloud. This can reduce compute costs by up to 70%, as SkyPilot will automatically relocate the job if the cloud provider reclaims the instances.
+> **Preemption Support:** Kueue allows you to implement priority classes. High-priority training jobs can "preempt" lower-priority dev work, ensuring critical deadlines are met without manual intervention.
 
 ---
 
@@ -119,10 +104,10 @@ The **SkyPilot + Transformer Lab** stack automates recovery from these failures:
 
 ### Advanced Storage Solutions
 
-* **JuiceFS:** Standard NFS performance often degrades when handling datasets containing millions of small files. JuiceFS creates a POSIX-compliant file system on top of Object Storage (S3/MinIO), providing the scalability of S3 with the access patterns of a local drive.
-* **Longhorn:** For workloads requiring fast, private block devices, Longhorn (by Rancher) provides distributed block storage for Kubernetes, ensuring data replication across nodes.
+* **JuiceFS:** Recommended for datasets with millions of small files. It provides a POSIX-compliant interface on top of Object Storage.
+* **Longhorn:** Provides distributed block storage for persistent volumes that require high-speed local performance with data replication.
 
 ### Observability & Networking
 
-* **Monitoring:** Deploy **Prometheus** and **Grafana** with the `NVIDIA DCGM Exporter`. This provides visualization for GPU temperatures, power consumption, and process health across the cluster.
-* **Networking:** For multi-node training (e.g., 32+ GPUs), ensure that the **RoCE (RDMA over Converged Ethernet)** or **InfiniBand** fabric is exposed to Kubernetes pods via the **SR-IOV CNI plugin** to prevent network bottlenecks during data synchronization.
+* **Monitoring:** Deploy **Prometheus** and **Grafana** with the `NVIDIA DCGM Exporter` for real-time visibility into GPU health and utilization.
+* **Networking:** For multi-node training (32+ GPUs), use the **SR-IOV CNI plugin** to expose **RoCE** or **InfiniBand** directly to pods, minimizing latency during gradient synchronization.
