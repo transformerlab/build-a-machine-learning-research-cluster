@@ -102,9 +102,9 @@ In the rest of this guide we outline detailed recommendations for different labs
 | **OS** | Rocky Linux / Ubuntu | Ubuntu or Talos Linux | Ubuntu Desktop / macOS |
 | **Networking** | InfiniBand (NDR) | Ethernet + RoCEv2 (400G) | 10GbE / Tailscale |
 | **Storage** | VAST Data / Lustre | JuiceFS + AWS S3 | Local NVMe + MinIO |
-| **Orchestration** | Slurm | Transformer Lab + Kubernetes + Kueue | Transformer Lab + Kubernetes (k3s) |
+| **Orchestration** | Slurm | SkyPilot + Kubernetes + Kueue | SkyPilot + Kubernetes (k3s) |
 | **Tracking** | W&B / MLflow | W&B (Team Edition) |  TensorBoard |
-| **User Interface** | Open OnDemand / VS Code | JupyterHub / SkyPilot | VS Code Remote / SSH |
+| **User Interface** | Open OnDemand / None | Transformer Lab + Jupyter + VS Code Remote + SSH  | Transformer Lab + Jupyter + VS Code Remote + SSH |
 
 
 [**Return to the Home Page to Read about Specific Cluster Configuration Suggestions -->**](../README.md)
