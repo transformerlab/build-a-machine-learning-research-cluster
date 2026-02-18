@@ -31,77 +31,80 @@ Most labs evolve through a predictable cycle of hardware needs driven by the dem
 
 ## Components To Consider
 
-<img src="./images/hardware-storage-software.png" width="300">
+In this guide we focus on the following core components of a Machine Learning Research Cluster:
 
-### Hardware
-This is the physical foundation of your platform. For research, the network is often as critical as the GPUs themselves.
+1) Hardware and OS
+2) Networking
+3) Storage
+4) Orchestration and Scheduling
+5) Experiment Tracking and Model/Data Registries
+6) User Interface
 
-#### Compute Nodes
-You will likely need a mix of node types:
-*   **Training Nodes:** Dense, powerful servers (e.g., 8x high-end GPUs like H100s) designed for heavy lifting.
-*   **Interactive Nodes:** Cheaper nodes with fewer GPUs intended for debugging, Jupyter Notebooks, and prototyping.
+<img src="./images/components.png" width="400">
 
-#### The Interconnect
-If you plan to train large models across multiple nodes, standard Ethernet is insufficient. You need a high-speed fabric like **InfiniBand** or **RoCE** (RDMA over Converged Ethernet).
-*   **East-West Traffic:** In distributed training, nodes pass gradients to each other continuously. Without a high-speed interconnect, nodes spend more time "chattering" than computing.
-*   **Topology:** As you scale beyond a single switch (e.g., >36 ports), you must design a non-blocking network, typically a "Spine and Leaf" (Fat Tree) topology, to ensure consistent bandwidth.
+### Hardware and OS
 
-### Unified Storage
+#### GPUs:
 
-All the compute in your cluster needs access to a common set of data and a place to store the outputs (artifacts) from jobs. Worker nodes are often ephemeral and can be in distributed clouds, but they all need to be able to see and write to the same data.
+* **NVIDIA:** The research default; Blackwell (B200/GB200) architecture and the indispensable CUDA ecosystem.
+* **AMD:** The MI300/MI325X series; significant growth for researchers using PyTorch/ROCm.
+* **Apple Silicon:** M3/M4 Ultra; popular for local prototyping and "Small LLM" research via MLX.
+* **TPUs/LPUs:** Google TPU v6 (Trillium) for massive scaling; Groq (LPU) for ultra-fast inference research.
 
-#### Hot Storage (High-Performance)
-This is where active datasets often live. It must support massive throughput to keep GPUs fed.
-*   **Technology:** Parallel file systems like **Lustre**, **WekaIO**, **GPFS**, or **BeeGFS** are standard. Cloud-native options include **JuiceFS** (a distributed POSIX file system built on object storage) and **Longhorn** (a Kubernetes-native distributed block storage system).
-*   **Optimization:** Technologies like **GPU Direct Storage** allow GPUs to read directly from local NVMe drives, bypassing the CPU and system RAM to reduce latency.
+#### Operating Systems:
 
-#### Warm/Cold Storage (Object Store)
-Cheaper storage for checkpoints, logs, and datasets not currently in use.
-*   **Technology:** S3-compatible object storage (like **MinIO** for on-prem or AWS S3 for cloud).
-*   **Artifacts:** A specific database is often needed to track model weights and training metadata, distinct from raw file storage.
+* **Ubuntu:** The industry standard for driver compatibility and container support.
+* **Rocky Linux / AlmaLinux:** Preferred in traditional HPC for RHEL-based stability.
+* **Talos Linux:** A modern, security-focused "immutable" OS for Kubernetes-first clusters.
 
-### The Software Stack
+### Networking
 
-The software stack transforms a collection of metal boxes into a usable research platform. It consists of three distinct layers, each serving a critical function.
+* **InfiniBand (NVIDIA/Mellanox):** The gold standard for low-latency, lossless communication in large-scale distributed training.
+* **Ethernet with RoCEv2:** A cost-effective alternative using standard switches (Broadcom, Arista) to achieve RDMA speeds.
+* **Ultra Ethernet Consortium (UEC):** The 2026 open standard for scaling AI networking beyond InfiniBand's vendor lock-in.
 
-```mermaid
-graph TB
-    A["Interface Layer<br/>(SSH, JupyterHub, Transformer Lab)"]
-    B["Orchestration Layer<br/>(Slurm, Kubernetes, SkyPilot)"]
-    C["Hardware Layer<br/>(GPUs, Network, Storage)"]
-    
-    A --> B
-    B --> C
-    
-    style A fill:#e1f5ff
-    style B fill:#fff4e1
-    style C fill:#ffe1f5
-```
+### Storage
 
-## Three Layers
+* **JuiceFS:** A distributed layer that provides a POSIX interface over cheap object storage (S3/MinIO).
+* **MinIO:** High-performance, self-hosted S3-compatible object storage for managing massive datasets. (note minio development seems to have stopped but there are direct alternatives)
+* **S3/GCS/R2** Object stores from AWS, GCS, and Cloudflare
+* **Pure Storage / NetApp:** Proprietary enterprise "Flash-first" arrays for labs requiring high reliability and turnkey management.
+* **WEKA & VAST Data:** Proprietary AI-native parallel file systems designed to feed data to GPUs at wire speed.
+* **Longhorn:** A lightweight, open-source distributed block storage system for Kubernetes that turns local node disks into highly available, replicated volumes for stateful workloads.
 
-### Layer 1: Hardware Layer
-This is the physical foundation consisting of:
-*   **GPU Compute Nodes:** The actual servers containing GPUs (training nodes, interactive nodes, etc.)
-*   **High-Speed Network Fabric:** InfiniBand or RoCE interconnects enabling node-to-node communication
-*   **Parallel File Systems:** Lustre, BeeGFS, JuiceFS, or Longhorn providing high-throughput storage
+### Orchestration and Scheduling
 
-### Layer 2: Orchestration Layer
-This layer manages resource allocation, job scheduling, and policy enforcement. It decides which workload runs where and when.
+* **Slurm:** The traditional HPC king; excellent for batch jobs and raw performance.
+* **Kubernetes + Kueue:** The 2026 standard for "Cloud-Native" labs; brings modern queueing to K8s.
+* **SkyPilot:** "Meta-scheduler" that abstracts the cluster, allowing jobs to run anywhere (Local vs. Cloud).
+* **Dstack**: Alternative to SkyPilot that avoids complexity of Kubernetes
 
-*   **Slurm:** The HPC (High-Performance Computing) standard. Rock-solid for batch jobs with built-in fair-share and gang scheduling. Creates a queue system familiar to academic researchers.
-*   **Kubernetes (K8s):** The cloud-native standard. Better for complex pipelines, serving, and web services, but requires additional tooling (like **Volcano** or **Kueue**) to handle batch scheduling and gang scheduling effectively.
-*   **SkyPilot:** An abstraction layer that can sit on top of both Kubernetes and Slurm (as well as public clouds), offering a unified interface for defining jobs and managing "spot" instances for cost savings.
+### Experiment Tracking and Model/Data Registries
 
-Key scheduling features include:
-*   **Fair-Share Scheduling:** Adjusts priority based on historical usage to ensure equitable access
-*   **Gang Scheduling:** Ensures "all-or-nothing" allocation for distributed jobs requiring multiple GPUs simultaneously
+* **Weights & Biases (W&B):** The premier choice for visualization and collaborative research.
+* **Tensorboard** Opens ource metric tracking for ML
+* **MLflow:** A versatile open-source platform for tracking experiments and managing the model lifecycle.
 
-### Layer 3: Interface Layer
-This is how researchers interact with the cluster. The choice of interface dramatically affects user experience and adoption.
+### User Interface
 
-*   **Bash Commands over SSH:** The traditional HPC approach. Users SSH into a login node and submit jobs directly using `sbatch` (Slurm) or `kubectl` (Kubernetes) commands. Requires deep technical knowledge but offers maximum flexibility and control.
-*   **Interactive Development Environments:** Services like **JupyterHub** or **VS Code Server** provide web-based IDEs where researchers can develop and debug code interactively before submitting batch jobs.
-*   **Unified GUI Platforms:** Tools like **Transformer Lab** provide a graphical interface that abstracts away the complexity of the underlying orchestrator. Users can launch jobs, manage experiments, access interactive sessions (Jupyter/VSCode), and track artifacts without mastering CLI commands or understanding Slurm/Kubernetes syntax.
+* **Transformer Lab** An open-source "control plane" that talks to Slurm or SkyPilot
+* **JupyterHub:** The standard web interface for multi-user notebook access.
+* **Open OnDemand:** A powerful portal for high-performance clusters providing shell access, file management, and GUI apps.
+* **VS Code Remote:** The preferred IDE for researchers to write code locally while executing on cluster GPUs via SSH.
+
+## Example Configurations
+
+In the rest of this guide we will outline detailed recommendations for different labs of different sizes but examples of stacks could look like:
+
+| Component | **University Research Lab** | **The AI Startup** | **The Micro Lab / Indie** |
+| --- | --- | --- | --- |
+| **Compute** | NVIDIA H200/B200 (On-prem) | H100s (Cloud-burst / Lambda) | RTX 5090 / Mac Studio |
+| **OS** | Rocky Linux / Ubuntu | Ubuntu or Talos Linux | Ubuntu Desktop / macOS |
+| **Networking** | InfiniBand (NDR) | Ethernet + RoCEv2 (400G) | 10GbE / Tailscale |
+| **Storage** | VAST Data / Lustre | JuiceFS + AWS S3 | Local NVMe + MinIO |
+| **Orchestration** | Slurm | Transformer Lab + Kubernetes + Kueue | Transformer Lab + Kubernetes (k3s) |
+| **Tracking** | W&B / MLflow | W&B (Team Edition) |  TensorBoard |
+| **User Interface** | Open OnDemand / VS Code | JupyterHub / SkyPilot | VS Code Remote / SSH |
+
 
 [**Return to the Home Page to Read about Specific Cluster Configuration Suggestions -->**](../README.md)
