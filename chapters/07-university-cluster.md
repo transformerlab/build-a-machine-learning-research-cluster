@@ -117,4 +117,4 @@ The combination of **SkyPilot** and **Kueue** automates recovery:
 Ready to Set up a Cluster of this Scale Step-by-step? Read our Guides here: 
 
 * [SkyPilot + Kueue + Kubernetes Step-by-Step Install](./07-02-skypilot-rancher-install.md)
-* University Slurm Cluster (coming soon)
+* [University Slurm Cluster](./07-02-slurm-cluster-install.md)
