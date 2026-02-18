@@ -1,6 +1,6 @@
 # The Definitive Guide to Building a Machine Learning Research Platform 🚀
 
-![Cover Image](./chapters/images/cover.png)
+<img src="./chapters/images/cover.png" width=400>
 
 This guide is for **academic institutions and research labs** ready to establish their first cohesive machine learning research platform. We've designed this guide for IT directors, principal investigators, and system architects tasked with building a unified environment where every researcher—from the first-year student to the seasoned postdoc—can train models efficiently. Whether you are starting with a single "under-the-desk" GPU server or scaling to a university-wide cluster, this guide provides the technical blueprints and strategic philosophy needed to turn raw hardware into a world-class discovery engine.
 
