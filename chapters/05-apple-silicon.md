@@ -4,7 +4,7 @@
 
 **The Challenge:** Apple Silicon is a masterpiece of hardware, but it is a "citizen of a different world." Applying traditional Linux-centric patterns to macOS results in the "Metal Air Gap."
 
----
+<img src="./images/stackofmacs.jpg" width=500>
 
 ## 1. Do Not Use Kubernetes
 
