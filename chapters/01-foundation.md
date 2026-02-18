@@ -16,7 +16,7 @@ Building a cluster for a **research team** is fundamentally different from build
 
 Most labs evolve through a predictable cycle of hardware needs driven by the demand for faster training and larger datasets.
 
-![Different MLRP GPU Configurations](./images/configurations.png)
+<img src="./images/configurations.png" width=500>
 
 
 1.  **The Workstation (Single Node):**
@@ -40,7 +40,7 @@ In this guide we focus on the following core components of a machine learning re
 5) Experiment Tracking and Model/Data Registries
 6) User Interface
 
-<img src="./images/components.png" width="400">
+<img src="./images/components.png" width="500">
 
 ### Hardware and OS
 
