@@ -4,6 +4,17 @@
 
 **The Challenge:** The "Wild West" era of SSH-ing into a random machine and running `nvidia-smi` to see if anyone is using it must end. If two researchers launch an LLM training job on the same node, both will crash with **OOM (Out of Memory)** errors, and the workday is lost.
 
+### Tech Stack
+
+| Layer | Closet Cluster (2–5 Nodes) |
+| --- | --- |
+| **Hardware** | DGX Stations / Custom 4x GPU Rigs |
+| **OS** | Ubuntu 22.04 |
+| **Networking** | Tailscale / 10GbE+ Switch |
+| **Storage** | NFS Shared Storage |
+| **Orchestration** | SkyPilot + k3s / Slurm / Rancher (RKE2) |
+| **Interface** | Transformer Lab |
+
 ### The Infrastructure Architecture
 
 At this scale, your primary goal is to create a **Single System Image**—where researchers see a pool of GPUs rather than a list of IP addresses.
