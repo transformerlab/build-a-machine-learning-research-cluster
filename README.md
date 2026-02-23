@@ -29,6 +29,15 @@ In this guide, we are not attempting to list every possibility but, rather, to o
 
 ## How They Built It: Real-World ML Clusters
 
+### Academic Clusters
+
+* [Stanford HAI and Sherlock Ecosystems (SLURM Basics)](https://stanford-rc.github.io/docs-earth/docs/slurm-basics)
+* [MIT CSAIL (TIG Cluster Share)](https://tig.csail.mit.edu/shared-computing/slurm/cluster-share/)
+* [SLURM on NERSC](https://docs.nersc.gov/jobs/)
+* [MIT ORCD: DLCI and Commercial Resources](https://orcd.mit.edu/resources/dlci-and-commercial-resources)
+
+### Startup/Corporate Clusters
+
 * [SkyPilot at Shopify](https://shopify.engineering/skypilot)
 * [AI / ML at Uber](https://www.uber.com/en-CA/blog/from-predictive-to-generative-ai/)
 * [3 Principles for Building an ML Platform That Will Sustain Hypergrowth](https://careersatdoordash.com/blog/3-principles-for-building-an-ml-platform/)
