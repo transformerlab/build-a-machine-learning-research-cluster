@@ -14,6 +14,7 @@ In this guide, we are not attempting to list every possibility but, rather, to o
 
 - **Philosophy & Components**
     - [The Foundation – Defining the stack: Drivers, Orchestration, and Storage](chapters/01-foundation.md)
+    - [Selecting an Orchestrator / Scheduler: SLURM, SkyPilot, Kubernetes, and Alternatives](chapters/selecting-an-orchestrator)
 
 ### Configurations
 
