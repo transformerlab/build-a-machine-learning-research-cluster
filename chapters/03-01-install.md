@@ -164,8 +164,6 @@ kubectl get nodes -o custom-columns="NAME:.metadata.name,GPU:.status.allocatable
 
 If you see a `1` (or the number of GPUs you have) under the GPU column, you are ready to deploy AI/ML workloads!
 
-[**Now you can continue to Step 2 to install Skypilot -->**](./03-03-02-skypilot.md)
-
 ---
 
 # Step 2. Installing Skypilot
