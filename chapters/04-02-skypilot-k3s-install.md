@@ -457,3 +457,64 @@ Once that works, the unit above should keep it running and auto-start it on rebo
 ## 5. Install Transformer Lab
 
 Install Transformer Lab by [following the instructions here](https://lab.cloud/for-teams/install). It will automatically detect the local SkyPilot configuration.
+
+## 6. (Recommended) Add Persistent Hugging Face + uv Caches
+
+This step improves performance by persisting model and package caches on each node host, so new SkyPilot pods can reuse previously downloaded files instead of re-downloading them.
+
+- **Why this helps:**
+  - Hugging Face model/tokenizer artifacts can be tens or hundreds of GB.
+  - `uv` repeatedly downloads/builds Python wheels across jobs if cache is ephemeral.
+  - Mounting host-backed caches reduces startup time, external bandwidth usage, and repeated disk/network I/O for recurring workloads.
+
+1. **Create cache directories on each worker node** (or automate with Ansible):
+
+Use your actual Linux username in place of `<LOCAL_USERNAME>`.
+
+```bash
+sudo mkdir -p /home/<LOCAL_USERNAME>/huggingface_cache
+sudo mkdir -p /home/<LOCAL_USERNAME>/uv_cache
+sudo chown -R 1000:1000 /home/<LOCAL_USERNAME>/huggingface_cache /home/<LOCAL_USERNAME>/uv_cache
+```
+
+2. **Make the host cache directories very permissive** so pods can always access them:
+
+```bash
+sudo chmod -R 777 /home/<LOCAL_USERNAME>/huggingface_cache /home/<LOCAL_USERNAME>/uv_cache
+```
+
+3. **Append this to `~/.sky/config.yaml` on the Head Node**:
+
+```yaml
+kubernetes:
+  context_configs:
+    default:
+      pod_config:
+        spec:
+          containers:
+            - env:
+                - name: HF_HOME
+                  value: /home/sky/.cache/huggingface
+                - name: UV_CACHE_DIR
+                  value: /home/sky/.cache/uv
+              volumeMounts:
+                - name: hf-vol
+                  mountPath: /home/sky/.cache/huggingface
+                - name: uv-vol
+                  mountPath: /home/sky/.cache/uv
+          volumes:
+            - name: hf-vol
+              hostPath:
+                path: /home/<LOCAL_USERNAME>/huggingface_cache
+                type: DirectoryOrCreate
+            - name: uv-vol
+              hostPath:
+                path: /home/<LOCAL_USERNAME>/uv_cache
+                type: DirectoryOrCreate
+```
+
+4. **Validate with a second run:** launch the same workload twice and confirm the second run starts faster due to cache hits.
+
+> **Important:** This pattern behaves best in a single-machine setup where all pods run on the same host and see the same local cache paths.
+>
+> In multi-node clusters, pods can be scheduled on different workers and each worker only sees its own local `hostPath` directory. If you want one shared cache across nodes, use a distributed/shared filesystem (for example: NFS, CephFS, EFS, or another network file system) and mount that into the pods instead.
