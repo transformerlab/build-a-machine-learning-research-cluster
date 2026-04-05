@@ -295,27 +295,15 @@ Type=simple
 User=YOUR_USERNAME
 Group=YOUR_USERNAME
 WorkingDirectory=/home/YOUR_USERNAME
-Environment="PATH=/home/YOUR_USERNAME/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+Environment="PYTHONNOUSERSITE=1"
+Environment="PATH=/home/YOUR_USERNAME/.venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 Environment="KUBECONFIG=/home/YOUR_USERNAME/.kube/config"
 ExecStart=/home/YOUR_USERNAME/.venv/bin/sky api start --deploy --foreground
 Restart=always
 RestartSec=10
-StandardOutput=journal
-StandardError=journal
 
 [Install]
 WantedBy=multi-user.target
-```
-
-For a machine with a user called `transformerlab`, this likely becomes:
-
-```ini
-User=transformerlab
-Group=transformerlab
-WorkingDirectory=/home/transformerlab
-Environment="PATH=/home/transformerlab/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-Environment="KUBECONFIG=/home/transformerlab/.kube/config"
-ExecStart=/home/transformerlab/.venv/bin/sky api start --deploy --foreground
 ```
 
 Save and exit (`Ctrl+O`, `Enter`, `Ctrl+X`).
